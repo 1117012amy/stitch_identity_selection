@@ -729,7 +729,7 @@ class ObscureAppBar extends StatelessWidget implements PreferredSizeWidget {
           actions ??
           [
             Padding(
-              padding: const EdgeInsets.only(right: 12.0),
+              padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(
                 icon: AppIcons.notification(color: AppTheme.primary, size: 22),
                 splashColor: Colors.transparent,

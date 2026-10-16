@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obscure - 設定</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-dim": "#4e0309",
+                        "primary-fixed-dim": "#d6d4d3",
+                        "primary-fixed": "#e5e2e1",
+                        "on-background": "#353327",
+                        "surface-container-high": "#eee8d9",
+                        "surface-dim": "#e0dac6",
+                        "inverse-primary": "#ffffff",
+                        "background": "#fef9f1",
+                        "secondary-container": "#ffdad6",
+                        "primary": "#5f5e5e",
+                        "outline": "#7f7b6c",
+                        "on-surface": "#353327",
+                        "on-secondary": "#fff7f6",
+                        "tertiary-fixed": "#0356ff",
+                        "primary-container": "#e5e2e1",
+                        "tertiary-dim": "#0044d0",
+                        "on-primary-fixed": "#403f3f",
+                        "secondary-dim": "#aa0015",
+                        "on-error": "#fff7f6",
+                        "secondary": "#c1031a",
+                        "surface-container-low": "#f8f3e9",
+                        "surface": "#fef9f1",
+                        "on-tertiary-fixed": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "inverse-surface": "#0f0e0a",
+                        "on-tertiary-container": "#ffffff",
+                        "surface-container": "#f3ede1",
+                        "on-tertiary": "#f3f2ff",
+                        "tertiary-fixed-dim": "#004be4",
+                        "on-secondary-fixed": "#85000e",
+                        "surface-container-highest": "#e8e2d1",
+                        "error-container": "#fe8983",
+                        "tertiary": "#004be4",
+                        "on-primary-container": "#525151",
+                        "on-surface-variant": "#625f51",
+                        "surface-variant": "#e8e2d1",
+                        "on-secondary-container": "#a80015",
+                        "error": "#9f403d",
+                        "primary-dim": "#535252",
+                        "secondary-fixed-dim": "#ffc7c2",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#cad3ff",
+                        "on-secondary-fixed-variant": "#ba0018",
+                        "tertiary-container": "#0356ff",
+                        "on-error-container": "#752121",
+                        "surface-bright": "#fef9f1",
+                        "on-primary": "#faf7f6",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-on-surface": "#a09c96",
+                        "outline-variant": "#b7b2a1",
+                        "bauhaus-red": "#ff3f3f",
+                        "bauhaus-yellow": "#ffcc00",
+                        "bauhaus-blue": "#0055ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "display": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fef9f1;
+        }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neo-brutal-border {
+            border: 3px solid #1a1a1a;
+        }
+        .neo-brutal-shadow {
+            box-shadow: 4px 4px 0px 0px #1a1a1a;
+        }
+        .neo-brutal-shadow-sm {
+            box-shadow: 2px 2px 0px 0px #1a1a1a;
+        }
+        .neo-brutal-shadow-yellow {
+            box-shadow: 6px 6px 0px 0px #ffcc00;
+        }
+        .neo-brutal-shadow-active:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px 0px #1a1a1a;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background pb-24">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-inverse-surface w-full border-b-4 border-primary dark:border-primary-fixed shadow-[4px_4px_0px_0px_#5f5e5e] sticky top-0 z-50">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<button class="flex items-center justify-center p-2 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all hover:bg-secondary dark:hover:bg-secondary-dim hover:text-on-secondary rounded-lg">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline text-2xl font-bold uppercase tracking-tighter text-primary dark:text-primary-fixed">設定</h1>
+<button class="flex items-center justify-center p-2 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all hover:bg-secondary dark:hover:bg-secondary-dim hover:text-on-secondary rounded-lg">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<main class="max-w-2xl mx-auto px-4 mt-8 space-y-12">
+<!-- User Profile Section -->
+<section class="relative group">
+<div class="neo-brutal-border neo-brutal-shadow-yellow bg-white p-6 flex flex-col md:flex-row items-center gap-6">
+<div class="relative">
+<div class="w-24 h-24 rounded-full neo-brutal-border overflow-hidden bg-bauhaus-blue">
+<img class="w-full h-full object-cover" data-alt="A graphic, high-contrast portrait of a person with stylized features, following a Bauhaus aesthetic. The composition uses bold geometric shapes and a primary color palette of red, blue, and yellow. The lighting is flat and graphic, creating a modern neo-brutalistic profile avatar set against an off-white textured background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9FXhOxNaDpDmP-ncQuQxTsAg6s4SxipWZgen7IP3r6hK5QnrzR5KJs4Q_egAGMS1FCS4XXOkxMe07aaHaMBuJAXfT5kRemqX8PQmIzSYLLmxTRa6-agantkvWey0sdSD8q9HB0WMha2dOP3l8WKReADzwQADe1PKGS1NgobYY4J4kXNC7czcK-YBcI7f_gJS6AhGsbGkSyzIQSFE9UXdL3MTZRPS-QT73gdXkI7A-v_VcOHmxXlda_2esPbf6I856Cv1wsyORnepq"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-8 h-8 bg-bauhaus-yellow neo-brutal-border flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</div>
+</div>
+<div class="text-center md:text-left">
+<h2 class="font-headline text-4xl font-black tracking-tight text-bauhaus-red">鮭魚</h2>
+<p class="font-body text-primary font-bold">salmon.studio@design.tw</p>
+</div>
+</div>
+</section>
+<!-- Account Settings -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-8 w-3 bg-bauhaus-blue neo-brutal-border"></div>
+<h3 class="font-headline text-xl font-black uppercase italic">帳戶設定</h3>
+</div>
+<div class="grid gap-3">
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-bauhaus-blue" data-icon="person">person</span>
+<span class="font-bold font-headline">個人資料</span>
+</div>
+<span class="material-symbols-outlined" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-bauhaus-red" data-icon="security">security</span>
+<span class="font-bold font-headline">密碼與安全</span>
+</div>
+<span class="material-symbols-outlined" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-bauhaus-yellow" data-icon="card_membership" style="font-variation-settings: 'FILL' 1;">card_membership</span>
+<span class="font-bold font-headline">訂閱管理</span>
+</div>
+<span class="material-symbols-outlined" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</button>
+</div>
+</section>
+<!-- Notifications -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-8 w-3 bg-bauhaus-red neo-brutal-border"></div>
+<h3 class="font-headline text-xl font-black uppercase italic">通知</h3>
+</div>
+<div class="grid gap-3">
+<div class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-bold font-headline">推播通知</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-primary neo-brutal-border peer-checked:bg-bauhaus-yellow transition-colors"></div>
+<div class="absolute left-1 top-1 bg-white neo-brutal-border w-6 h-6 peer-checked:translate-x-6 transition-transform"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-bold font-headline">郵件通知</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-primary neo-brutal-border peer-checked:bg-bauhaus-yellow transition-colors"></div>
+<div class="absolute left-1 top-1 bg-white neo-brutal-border w-6 h-6 peer-checked:translate-x-6 transition-transform"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Preferences -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-8 w-3 bg-bauhaus-yellow neo-brutal-border"></div>
+<h3 class="font-headline text-xl font-black uppercase italic">偏好設定</h3>
+</div>
+<div class="grid gap-3">
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+<span class="font-bold font-headline">語言</span>
+</div>
+<span class="font-bold text-bauhaus-blue">繁體中文</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined" data-icon="palette">palette</span>
+<span class="font-bold font-headline">主題顏色</span>
+</div>
+<span class="font-bold text-bauhaus-red">BAUHAUS</span>
+</button>
+</div>
+</section>
+<!-- Other -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-8 w-3 bg-primary neo-brutal-border"></div>
+<h3 class="font-headline text-xl font-black uppercase italic">其他</h3>
+</div>
+<div class="grid gap-3">
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<span class="font-bold font-headline">幫助中心</span>
+<span class="material-symbols-outlined" data-icon="open_in_new">open_in_new</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<span class="font-bold font-headline">隱私條款</span>
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</button>
+<button class="flex items-center justify-between p-4 bg-white neo-brutal-border neo-brutal-shadow-active neo-brutal-shadow-sm hover:bg-surface-container-high transition-all">
+<span class="font-bold font-headline">關於 Obscure</span>
+<span class="material-symbols-outlined" data-icon="info">info</span>
+</button>
+</div>
+</section>
+<!-- Logout Button -->
+<div class="pt-8 pb-12">
+<button class="w-full py-6 neo-brutal-border bg-bauhaus-red text-white font-headline text-2xl font-black tracking-widest uppercase neo-brutal-shadow hover:bg-black transition-all active:translate-x-1 active:translate-y-1 active:shadow-none">
+                登出
+            </button>
+<p class="text-center mt-6 font-headline font-bold opacity-30 text-xs tracking-[0.3em]">OBSCURE v2.4.0-STABLE</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-background dark:bg-inverse-surface border-t-4 border-primary dark:border-primary-fixed">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed p-2 hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label text-xs font-bold uppercase mt-1">首頁</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed p-2 hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label text-xs font-bold uppercase mt-1">探索</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed p-2 hover:bg-surface-container-highest dark:hover:bg-surface-dim transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<span class="font-label text-xs font-bold uppercase mt-1">訊息</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary dark:bg-secondary-dim text-on-secondary rounded-lg p-2 border-2 border-primary dark:border-primary-fixed shadow-[2px_2px_0px_0px_#5f5e5e] transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label text-xs font-bold uppercase mt-1">個人</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for toggle switches
+        document.querySelectorAll('input[type="checkbox"]').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const parent = this.closest('div');
+                if(this.checked) {
+                    parent.classList.add('neo-brutal-shadow-yellow');
+                } else {
+                    parent.classList.remove('neo-brutal-shadow-yellow');
+                }
+            });
+        });
+
+        // Simple parallax effect on scroll for geometric blocks
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.neo-brutal-shadow-yellow').forEach(el => {
+                const speed = 0.05;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

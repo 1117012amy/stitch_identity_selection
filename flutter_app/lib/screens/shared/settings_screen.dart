@@ -16,11 +16,18 @@ class SettingsScreen extends StatelessWidget {
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primary, size: 22),
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onPressed: () => Navigator.maybePop(context),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppTheme.primary,
+              size: 22,
+            ),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () => Navigator.maybePop(context),
+          ),
         ),
         title: const Text(
           SettingsText.title,

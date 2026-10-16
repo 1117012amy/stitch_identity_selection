@@ -119,10 +119,15 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     required String closeMode,
   }) {
     return Container(
-      height: 52,
+      height: AppTheme.appBarHeight + AppTheme.appBarDividerHeight,
       decoration: const BoxDecoration(
         color: AppTheme.background,
-        border: Border(bottom: BorderSide(color: AppTheme.primary, width: 2.0)),
+        border: Border(
+          bottom: BorderSide(
+            color: AppTheme.primary,
+            width: AppTheme.appBarDividerHeight,
+          ),
+        ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(
@@ -300,9 +305,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             Wrap(
               spacing: 6,
               runSpacing: 6,
-              children: styleTags
-                  .take(3)
-                  .map((tag) => _buildTag(tag, AppTheme.accentBlue))
+              children: styleTags.take(3).indexed
+                  .map((entry) => _buildTag(entry.$2, _tagColor(entry.$1)))
                   .toList(),
             ),
           ],
@@ -394,6 +398,14 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   }
 
   Color _commentColor(int index) {
+    return switch (index % 3) {
+      0 => AppTheme.accentRed,
+      1 => AppTheme.accentBlue,
+      _ => AppTheme.accentYellow,
+    };
+  }
+
+  Color _tagColor(int index) {
     return switch (index % 3) {
       0 => AppTheme.accentRed,
       1 => AppTheme.accentBlue,
