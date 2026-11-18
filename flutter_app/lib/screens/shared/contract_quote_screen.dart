@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import '../../core/app_text.dart';
 import '../../core/app_theme.dart';
 
+/// 頁面內容的最大寬度：網頁／平板上避免卡片被拉得過寬。
+const double _kMaxContentWidth = 640;
+
+/// 各區塊之間的統一間距（原本有 16 與 24 混用）。
+const double _kSectionGap = 20;
+
 class ContractQuoteScreen extends StatelessWidget {
   const ContractQuoteScreen({super.key});
 
@@ -9,378 +15,268 @@ class ContractQuoteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.surface,
-      appBar: const ObscureAppBar(), // Using ObscureAppBar from app_theme
+      appBar: const ObscureAppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(15, 16, 15, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Hero Section
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppTheme.accentRed,
-                  border: Border.all(color: AppTheme.primary, width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.primary,
-                      offset: AppTheme.hardShadowOffset,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      ContractQuoteText.title,
-                      style: TextStyle(
-                        fontFamily: 'Space Grotesk',
-                        fontSize: 26,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        height: 1.03,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      ContractQuoteText.description,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 13,
-                        color: Colors.white,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                  ],
-                ),
+        // Center + ConstrainedBox：窄螢幕照舊填滿，寬螢幕則置中並限制寬度
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: _kMaxContentWidth),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(15, 16, 15, 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildHero(),
+                  const SizedBox(height: _kSectionGap),
+                  _buildStatusCard(),
+                  const SizedBox(height: _kSectionGap),
+                  _buildTermsCard(),
+                  const SizedBox(height: _kSectionGap),
+                  _buildFeeCard(),
+                  const SizedBox(height: _kSectionGap),
+                  _buildSignatureCard(),
+                ],
               ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: AppTheme.primary, width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.primary,
-                      offset: AppTheme.hardShadowOffset,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      ContractQuoteText.statusLabel,
-                      style: TextStyle(
-                        fontFamily: 'Space Grotesk',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                    const Text(
-                      ContractQuoteText.statusValue,
-                      style: TextStyle(
-                        fontFamily: 'Space Grotesk',
-                        fontSize: 29,
-                        fontWeight: FontWeight.w900,
-                        color: AppTheme.accentRed,
-                        letterSpacing: 0,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 12),
-                      padding: const EdgeInsets.only(top: 12),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(color: AppTheme.primary, width: 1.5),
-                        ),
-                      ),
-                      child: const Text(
-                        ContractQuoteText.date,
-                        style: TextStyle(
-                          fontFamily: 'Space Grotesk',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          letterSpacing: 0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Terms of Engagement
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: AppTheme.primary, width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.primary,
-                      offset: AppTheme.hardShadowOffset,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppTheme.primary,
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        ContractQuoteText.termsTitle,
-                        style: TextStyle(
-                          fontFamily: 'Space Grotesk',
-                          fontSize: 17,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTermItem(
-                      ContractQuoteText.terms[0].title,
-                      ContractQuoteText.terms[0].detail,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTermItem(
-                      ContractQuoteText.terms[1].title,
-                      ContractQuoteText.terms[1].detail,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildTermItem(
-                      ContractQuoteText.terms[2].title,
-                      ContractQuoteText.terms[2].detail,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Fee Breakdown
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: AppTheme.primary, width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.primary,
-                      offset: AppTheme.hardShadowOffset,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppTheme.primary,
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        ContractQuoteText.feeTitle,
-                        style: TextStyle(
-                          fontFamily: 'Space Grotesk',
-                          fontSize: 17,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0,
-                        ),
-                      ),
-                    ),
-                    _buildFeeItem(
-                      ContractQuoteText.fees[0].title,
-                      ContractQuoteText.fees[0].detail,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildFeeItem(
-                      ContractQuoteText.fees[1].title,
-                      ContractQuoteText.fees[1].detail,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildFeeItem(
-                      ContractQuoteText.fees[2].title,
-                      ContractQuoteText.fees[2].detail,
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      color: AppTheme.primary,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              ContractQuoteText.total,
-                              style: TextStyle(
-                                fontFamily: 'Space Grotesk',
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                letterSpacing: 0,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '\$ 14,700',
-                            style: TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.white,
-                              letterSpacing: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Signature Area
-              Container(
-                decoration: BoxDecoration(
-                  color: AppTheme.accentYellow,
-                  border: Border.all(color: AppTheme.primary, width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.primary,
-                      offset: AppTheme.hardShadowOffset,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            ContractQuoteText.signature,
-                            style: TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontSize: 17,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 0,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Container(
-                            height: 80,
-                            alignment: Alignment.bottomLeft,
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: AppTheme.primary,
-                                  width: 1.5,
-                                ),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(
-                                ContractQuoteText.signatureHint,
-                                style: TextStyle(
-                                  fontFamily: 'Space Grotesk',
-                                  fontSize: 15,
-                                  fontStyle: FontStyle.italic,
-                                  color: AppTheme.primary.withValues(
-                                    alpha: 0.4,
-                                  ),
-                                  letterSpacing: 0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          const Text(
-                            ContractQuoteText.consent,
-                            style: TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        color: AppTheme.primary,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          ContractQuoteText.sign,
-                          style: TextStyle(
-                            fontFamily: 'Space Grotesk',
-                            fontSize: 17,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            letterSpacing: 0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: AppTheme.primary,
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          ContractQuoteText.downloadPdf,
-                          style: TextStyle(
-                            fontFamily: 'Space Grotesk',
-                            fontSize: 17,
-                            fontWeight: FontWeight.w900,
-                            color: AppTheme.primary,
-                            letterSpacing: 0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  // ───────────────────────── 各區塊 ─────────────────────────
+
+  /// 頂部紅色標題區
+  Widget _buildHero() {
+    return const _NeoCard(
+      color: AppTheme.accentRed,
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            ContractQuoteText.title,
+            style: TextStyle(
+              fontFamily: 'Space Grotesk',
+              fontSize: 26,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              height: 1.03,
+              letterSpacing: 0,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            ContractQuoteText.description,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: 13,
+              color: Colors.white,
+              letterSpacing: 0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 合約狀態與日期
+  Widget _buildStatusCard() {
+    return _NeoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            ContractQuoteText.statusLabel,
+            style: TextStyle(
+              fontFamily: 'Space Grotesk',
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0,
+            ),
+          ),
+          const Text(
+            ContractQuoteText.statusValue,
+            style: TextStyle(
+              fontFamily: 'Space Grotesk',
+              fontSize: 29,
+              fontWeight: FontWeight.w900,
+              color: AppTheme.accentRed,
+              letterSpacing: 0,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            padding: const EdgeInsets.only(top: 12),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: AppTheme.primary, width: 1.5),
+              ),
+            ),
+            child: const Text(
+              ContractQuoteText.date,
+              style: TextStyle(
+                fontFamily: 'Space Grotesk',
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 合約條款：用迴圈取代原本手寫 [0]、[1]、[2]，條款數量改變時也不會漏掉
+  Widget _buildTermsCard() {
+    return _NeoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _CardTitle(ContractQuoteText.termsTitle),
+          for (final term in ContractQuoteText.terms) ...[
+            _buildTermItem(term.title, term.detail),
+            // 最後一項後面不需要多餘的間距
+            if (term != ContractQuoteText.terms.last)
+              const SizedBox(height: 16),
+          ],
+        ],
+      ),
+    );
+  }
+
+  /// 費用明細與總計
+  Widget _buildFeeCard() {
+    return _NeoCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _CardTitle(ContractQuoteText.feeTitle),
+          for (final fee in ContractQuoteText.fees) ...[
+            _buildFeeItem(fee.title, fee.detail),
+            const SizedBox(height: 12),
+          ],
+          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.all(12),
+            color: AppTheme.primary,
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    ContractQuoteText.total,
+                    style: TextStyle(
+                      fontFamily: 'Space Grotesk',
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12),
+                // Flexible + 靠右：金額過長或字體放大時會換行而不是溢出
+                Flexible(
+                  child: Text(
+                    '\$ 14,700',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontFamily: 'Space Grotesk',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// 簽名區（黃底）：簽名欄 + 同意聲明 + 兩顆按鈕
+  Widget _buildSignatureCard() {
+    return _NeoCard(
+      color: AppTheme.accentYellow,
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  ContractQuoteText.signature,
+                  style: TextStyle(
+                    fontFamily: 'Space Grotesk',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 80,
+                  alignment: Alignment.bottomLeft,
+                  padding: const EdgeInsets.only(bottom: 8),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: AppTheme.primary, width: 1.5),
+                    ),
+                  ),
+                  child: Text(
+                    ContractQuoteText.signatureHint,
+                    style: TextStyle(
+                      fontFamily: 'Space Grotesk',
+                      fontSize: 15,
+                      fontStyle: FontStyle.italic,
+                      color: AppTheme.primary.withValues(alpha: 0.4),
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // 同意聲明由 10 提高到 12，手機上較容易閱讀
+                const Text(
+                  ContractQuoteText.consent,
+                  style: TextStyle(
+                    fontFamily: 'Space Grotesk',
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    height: 1.35,
+                    letterSpacing: 0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // 主要按鈕：深色底
+          _ActionButton(
+            label: ContractQuoteText.sign,
+            backgroundColor: AppTheme.primary,
+            foregroundColor: Colors.white,
+            onTap: () {}, // TODO: 之後接上實際簽署流程
+          ),
+          // 次要按鈕：透明底 + 上方分隔線
+          _ActionButton(
+            label: ContractQuoteText.downloadPdf,
+            foregroundColor: AppTheme.primary,
+            showTopBorder: true,
+            onTap: () {}, // TODO: 之後接上 PDF 下載
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ───────────────────────── 列表項目 ─────────────────────────
 
   Widget _buildTermItem(String title, String description) {
     return Row(
@@ -412,7 +308,11 @@ class ContractQuoteScreen extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 description,
-                style: const TextStyle(fontFamily: 'Inter', fontSize: 13),
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 13,
+                  height: 1.4,
+                ),
               ),
             ],
           ),
@@ -424,17 +324,11 @@ class ContractQuoteScreen extends StatelessWidget {
   Widget _buildFeeItem(String phase, String amount) {
     return Container(
       decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: AppTheme.primary,
-            width: 1.5,
-            style: BorderStyle.solid,
-          ),
-        ), // Using solid since dotted is trickier without custom painter
+        border: Border(bottom: BorderSide(color: AppTheme.primary, width: 1.5)),
       ),
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
@@ -447,16 +341,136 @@ class ContractQuoteScreen extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            amount,
-            style: const TextStyle(
-              fontFamily: 'Space Grotesk',
-              fontSize: 17,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 0,
+          const SizedBox(width: 12),
+          // 金額改用 Flexible：標題與金額都過長時不會擠出畫面
+          Flexible(
+            child: Text(
+              amount,
+              textAlign: TextAlign.end,
+              style: const TextStyle(
+                fontFamily: 'Space Grotesk',
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ───────────────────────── 共用小元件 ─────────────────────────
+
+/// 統一的「粗黑框 + 硬陰影」卡片，取代原本重複 5 次的 Container 裝飾。
+/// 要改邊框、陰影或內距時，只需修改這一處。
+class _NeoCard extends StatelessWidget {
+  const _NeoCard({
+    required this.child,
+    this.color = Colors.white,
+    this.padding = const EdgeInsets.all(16),
+  });
+
+  final Widget child;
+  final Color color;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: color,
+        border: Border.all(color: AppTheme.primary, width: 1.5),
+        boxShadow: const [
+          BoxShadow(color: AppTheme.primary, offset: AppTheme.hardShadowOffset),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+/// 卡片標題：文字下方一條分隔線，後面固定留 16 的間距。
+class _CardTitle extends StatelessWidget {
+  const _CardTitle(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 8),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AppTheme.primary, width: 1.5)),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Space Grotesk',
+          fontSize: 17,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 0,
+        ),
+      ),
+    );
+  }
+}
+
+/// 簽名區的整列按鈕。用 InkWell 取代 GestureDetector，點擊時會有水波紋回饋，
+/// 並加上 Semantics 讓讀屏軟體知道這是按鈕。
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.label,
+    required this.foregroundColor,
+    required this.onTap,
+    this.backgroundColor,
+    this.showTopBorder = false,
+  });
+
+  final String label;
+  final Color foregroundColor;
+  final Color? backgroundColor;
+  final bool showTopBorder;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: label,
+      child: Material(
+        // Material 是水波紋的「畫布」，沒有它 InkWell 的回饋會被底色蓋住
+        color: backgroundColor ?? Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            // 最小高度 56，符合手指點擊的建議大小
+            constraints: const BoxConstraints(minHeight: 56),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            alignment: Alignment.center,
+            decoration: showTopBorder
+                ? const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(color: AppTheme.primary, width: 1.5),
+                    ),
+                  )
+                : null,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Space Grotesk',
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: foregroundColor,
+                letterSpacing: 0,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

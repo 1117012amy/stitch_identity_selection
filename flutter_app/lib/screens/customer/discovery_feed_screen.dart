@@ -208,7 +208,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: NeoButton(
         onTap: () {
-          Navigator.pushNamed(context, '/project_detail');
+          Navigator.pushNamed(context, '/project');
         },
         color: AppTheme.surface,
         depth: 3.0,
@@ -287,28 +287,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: NeoButton(
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            '/project_detail',
-            arguments: {
-              'projectName': project.title,
-              'authorName': AppTheme.designerNickname,
-              'imageBytes': project.imageBytes,
-              'imageBytesList': project.imageBytesList,
-              'conceptText': project.concept,
-              'tags': project.tags,
-              'fieldTags': project.fieldTags,
-              'styleTags': project.styleTags.isNotEmpty
-                  ? project.styleTags
-                  : project.tags,
-              'authorTags': DesignerProfileText.defaultTags,
-              'authorRecentImages': AppTheme.designerProjects
-                  .expand((savedProject) => savedProject.imageBytesList)
-                  .take(6)
-                  .toList(),
-              'closeMode': 'customerFeed',
-            },
-          );
+          // 已中斷與 project_detail_screen 的捷徑（暫不導向任何頁面）
         },
         color: AppTheme.surface,
         depth: 3.0,

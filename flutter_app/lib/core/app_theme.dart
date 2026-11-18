@@ -5,7 +5,8 @@ import 'app_text.dart';
 import 'app_icons.dart';
 import 'fade_slide_route.dart';
 import 'project_storage_stub.dart'
-    if (dart.library.html) 'project_storage_web.dart';
+    if (dart.library.html) 'project_storage_web.dart'
+    if (dart.library.io) 'project_storage_io.dart';
 import '../screens/shared/notification_center_screen.dart';
 
 class DesignerSavedProject {
@@ -78,6 +79,9 @@ class DesignerSavedProject {
 class AppTheme {
   static bool isDesigner = false;
   static String designerNickname = AppText.defaultDesignerName;
+  // 客戶個人檔案的暱稱與自我介紹（目前只存在記憶體，重開 App 會還原）
+  static String customerNickname = CustomerProfileText.defaultName;
+  static String customerIntro = '';
   static final List<DesignerSavedProject> designerProjects = [];
 
   static Future<void> loadDesignerProjects() async {
@@ -594,13 +598,17 @@ class ObscureNavBar extends StatelessWidget {
       '/new_work',
     }.contains(activeRoute);
     final homeRoute = isDesignerSurface ? '/daily_planner' : '/discovery_feed';
+    // 「個人」圖示：設計師進設計師個人頁，客戶進客戶個人頁
+    final profileRoute = (isDesignerSurface || AppTheme.isDesigner)
+        ? '/designer_profile'
+        : '/customer_profile';
 
     final items = [
       ('home', homeRoute),
       ('search', '/search_categories'),
-      ('shining', '/commission_status'),
+      ('shining', '/project'),
       ('chat', '/message_inbox'),
-      ('user', '/designer_profile'),
+      ('user', profileRoute),
     ];
 
     return SafeArea(
@@ -627,10 +635,14 @@ class ObscureNavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: items.map((item) {
-              final isActive = item.$2 == activeRoute;
+              // 「委託」圖示指向 /project；在舊的 commission_status 頁也保持高亮
+              final isActive =
+                  item.$2 == activeRoute ||
+                  (item.$2 == '/project' &&
+                      activeRoute == '/commission_status');
               return GestureDetector(
                 onTap: () {
-                  if (!isActive) {
+                  if (item.$2 != activeRoute) {
                     Navigator.pushReplacementNamed(pageContext, item.$2);
                   }
                 },

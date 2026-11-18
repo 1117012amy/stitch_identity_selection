@@ -612,11 +612,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                     imageAspectRatio: _uploadedImageAspectRatio,
                   ),
                 );
-                Navigator.pushNamed(
-                  context,
-                  '/project_detail',
-                  arguments: arguments,
-                );
+                // 已中斷與 project_detail_screen 的捷徑：儲存後不再導向專案詳情頁
               },
               color: AppTheme.accentYellow,
               depth: 3.0,
@@ -653,13 +649,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                 ),
                 const SizedBox(width: 24),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    '/project_detail',
-                    arguments: _buildProjectDetailArguments(
-                      closeMode: 'preview',
-                    ),
-                  ),
+                  onTap: () {}, // 已中斷與 project_detail_screen 的捷徑（暫不導向任何頁面）
                   child: const Text(
                     NewWorkText.preview,
                     style: TextStyle(

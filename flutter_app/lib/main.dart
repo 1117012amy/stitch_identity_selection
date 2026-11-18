@@ -7,6 +7,7 @@ import 'core/app_theme.dart';
 import 'core/app_text.dart';
 import 'core/fade_slide_route.dart';
 import 'screens/admin/admin_dashboard_screen.dart';
+import 'screens/customer/customer_profile_screen.dart';
 import 'screens/customer/customer_signup_screen.dart';
 import 'screens/customer/discovery_feed_screen.dart';
 import 'screens/customer/search_categories_screen.dart';
@@ -22,7 +23,7 @@ import 'screens/shared/identity_selection_screen.dart';
 import 'screens/shared/login_verification_screen.dart';
 import 'screens/shared/message_inbox_screen.dart';
 import 'screens/shared/notification_center_screen.dart';
-import 'screens/shared/project_detail_screen.dart';
+import 'screens/shared/project_screen.dart';
 import 'screens/shared/review_rating_screen.dart';
 import 'screens/shared/settings_screen.dart';
 
@@ -38,7 +39,6 @@ class StitchApp extends StatefulWidget {
   static const Map<String, String> screenLabels = {
     '/message_inbox': AppText.screenMessageInbox,
     '/contract_quote': AppText.screenContractQuote,
-    '/project_detail': AppText.screenProjectDetail,
     '/settings': AppText.screenSettings,
   };
 
@@ -56,7 +56,6 @@ class _StitchAppState extends State<StitchApp> {
   static const Map<String, String> screenLabels = {
     '/message_inbox': AppText.screenMessageInbox,
     '/contract_quote': AppText.screenContractQuote,
-    '/project_detail': AppText.screenProjectDetail,
     '/settings': AppText.screenSettings,
   };
 
@@ -68,6 +67,7 @@ class _StitchAppState extends State<StitchApp> {
     '/': (context) => const LoginVerificationScreen(),
     '/identity_selection': (context) => const IdentitySelectionScreen(),
     '/customer_signup': (context) => const CustomerSignupScreen(),
+    '/customer_profile': (context) => const CustomerProfileScreen(),
     '/daily_planner': (context) => const DailyPlannerScreen(),
     '/designer_profile': (context) => const DesignerProfileScreen(),
     '/designer_signup': (context) => const DesignerSignupScreen(),
@@ -78,12 +78,12 @@ class _StitchAppState extends State<StitchApp> {
     '/portfolio_management': (context) => const PortfolioManagementScreen(),
     '/search_categories': (context) => const SearchCategoriesScreen(),
     '/notifications': (context) => const NotificationCenterScreen(),
-    '/project_detail': (context) => const ProjectDetailScreen(),
     '/contract_quote': (context) => const ContractQuoteScreen(),
     '/review_rating': (context) => const ReviewRatingScreen(),
     '/admin_dashboard': (context) => const AdminDashboardScreen(),
     '/new_work': (context) => const NewWorkScreen(),
     '/settings': (context) => const SettingsScreen(),
+    '/project': (context) => const ProjectScreen(),
   };
 
   static const Set<String> _designerOnlyRoutes = {
@@ -98,6 +98,10 @@ class _StitchAppState extends State<StitchApp> {
     final name = routeName ?? '/';
     if (AppTheme.isDesigner && name == '/discovery_feed') {
       return '/daily_planner';
+    }
+    // 設計師不使用客戶個人頁，改導向設計師個人頁
+    if (AppTheme.isDesigner && name == '/customer_profile') {
+      return '/designer_profile';
     }
     if (_designerOnlyRoutes.contains(name) && !AppTheme.isDesigner) {
       return '/discovery_feed';

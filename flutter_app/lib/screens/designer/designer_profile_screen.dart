@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -326,25 +325,7 @@ class _ProjectPreviewCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/project_detail',
-          arguments: {
-            'projectName': title,
-            'authorName': AppTheme.designerNickname,
-            'imageBytes': project?.imageBytes,
-            'imageBytesList': project?.imageBytesList ?? const [],
-            'conceptText': project?.concept ?? '',
-            'tags': tags,
-            'fieldTags': project?.fieldTags ?? const [],
-            'styleTags': project?.styleTags.isNotEmpty == true
-                ? project!.styleTags
-                : tags,
-            'authorTags': DesignerProfileText.defaultTags,
-            'authorRecentImages': _authorRecentImages(),
-            'closeMode': 'designerProfileReturn',
-          },
-        );
+        Navigator.pushNamed(context, '/project');
       },
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -430,13 +411,6 @@ class _ProjectPreviewCard extends StatelessWidget {
         },
       ),
     );
-  }
-
-  List<Uint8List> _authorRecentImages() {
-    return AppTheme.designerProjects
-        .expand((savedProject) => savedProject.imageBytesList)
-        .take(6)
-        .toList();
   }
 }
 
