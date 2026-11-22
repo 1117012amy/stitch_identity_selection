@@ -660,14 +660,6 @@ class CustomerProfileText {
   const CustomerProfileText._();
 
   static const defaultName = '\u5ba2\u6236';
-  static const tag = '#\u5ba2\u6236';
-  static const introTitle = '\u81ea\u6211\u4ecb\u7d39';
-  static const introHint =
-      '\u4ecb\u7d39\u4e00\u4e0b\u4f60\u81ea\u5df1\uff0c\u8b93\u8a2d\u8a08\u5e2b\u66f4\u4e86\u89e3\u4f60';
-  static const save = '\u5132\u5b58';
-  static const saved = '\u81ea\u6211\u4ecb\u7d39\u5df2\u5132\u5b58';
-  static const myCommissions = '\u6211\u7684\u59d4\u8a17';
-  static const settings = '\u8a2d\u5b9a';
-  static const fieldName = '\u66b1\u7a31';
-  static const nameHint = '\u8f38\u5165\u66b1\u7a31';
+  static const projectHistory = '\u5c08\u6848\u6b77\u53f2';
+  static const newTaskProject = '\u65b0\u4efb\u52d9\u5c08\u6848';
 }

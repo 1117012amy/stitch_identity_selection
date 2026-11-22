@@ -79,9 +79,8 @@ class DesignerSavedProject {
 class AppTheme {
   static bool isDesigner = false;
   static String designerNickname = AppText.defaultDesignerName;
-  // 客戶個人檔案的暱稱與自我介紹（目前只存在記憶體，重開 App 會還原）
+  // 客戶個人檔案顯示的稱呼
   static String customerNickname = CustomerProfileText.defaultName;
-  static String customerIntro = '';
   static final List<DesignerSavedProject> designerProjects = [];
 
   static Future<void> loadDesignerProjects() async {

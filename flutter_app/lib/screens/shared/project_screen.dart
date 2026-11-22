@@ -21,7 +21,6 @@ class _C {
   static const Color grey500 = Color(0xFF737373);
   static const Color grey600 = Color(0xFF525252);
   static const Color grey700 = Color(0xFF404040);
-  static const Color white40 = Color(0x66FFFFFF); // 白色 40% 透明
   static const Color white80 = Color(0xCCFFFFFF); // 白色 80% 透明
 }
 
@@ -71,6 +70,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
   // 分類按鈕目前選到哪一個（0 = 全部）
   int _selectedCategory = 0;
 
+  // 搜尋框的輸入內容控制器（要在 dispose 釋放）
+  final TextEditingController _searchController = TextEditingController();
+
   // 卡片 B 右上角的書籤是否已收藏
   bool _bookmarked = false;
 
@@ -81,6 +83,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
     '書籍裝幀',
     'UI/UX',
   ];
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   /// 前往指定頁面（保留目前頁面在返回堆疊上）
   void _go(String route) {
@@ -101,7 +109,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
             children: [
               // 1. 上方不對稱 Bento 區塊
               _HeroSection(
-                onSearch: () => _go(_Routes.search),
+                searchController: _searchController,
                 onFilter: () => _go(_Routes.search),
               ),
               const SizedBox(height: 16),
@@ -174,16 +182,12 @@ class _NeoBox extends StatelessWidget {
   const _NeoBox({
     required this.color,
     required this.child,
-    this.border = 4,
-    this.shadow = 4,
     this.shadowColor = _C.ink,
     this.padding = EdgeInsets.zero,
   });
 
   final Color color;
   final Widget child;
-  final double border;
-  final double shadow;
   final Color shadowColor;
   final EdgeInsetsGeometry padding;
 
@@ -193,8 +197,8 @@ class _NeoBox extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: color,
-        border: Border.all(color: _C.ink, width: border),
-        boxShadow: [BoxShadow(color: shadowColor, offset: Offset(shadow, shadow))],
+        border: Border.all(color: _C.ink, width: AppStroke.regular),
+        boxShadow: [BoxShadow(color: shadowColor, offset: AppTheme.hardShadowOffset)],
       ),
       child: child,
     );
@@ -242,7 +246,7 @@ class _Tag extends StatelessWidget {
         color: background,
         border: borderColor == null
             ? null
-            : Border.all(color: borderColor!, width: 1),
+            : Border.all(color: borderColor!, width: AppStroke.thin),
       ),
       child: Text(text, style: _head(size, color: foreground)),
     );
@@ -264,7 +268,7 @@ class _PosterImage extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFF171717),
-        border: Border(bottom: BorderSide(color: _C.ink, width: 3)),
+        border: Border(bottom: BorderSide(color: _C.ink, width: AppStroke.regular)),
       ),
       child: Stack(
         fit: StackFit.expand,
@@ -323,15 +327,15 @@ class _ActionButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: background,
-          border: Border.all(color: _C.ink, width: 2),
-          boxShadow: [BoxShadow(color: shadowColor, offset: const Offset(2, 2))],
+          border: Border.all(color: _C.ink, width: AppStroke.regular),
+          boxShadow: [BoxShadow(color: shadowColor, offset: AppTheme.hardShadowOffset)],
         ),
         child: Row(
           mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(label, style: _head(10, color: foreground)),
-            const SizedBox(width: 4),
+            const SizedBox(width: AppStroke.regular),
             Icon(icon, size: 13, color: foreground),
           ],
         ),
@@ -344,15 +348,15 @@ class _ActionButton extends StatelessWidget {
 // 1. 上方 Bento 區塊（黃色大塊 + 藍色篩選 + 紅色急件）
 // ------------------------------------------------------------
 class _HeroSection extends StatelessWidget {
-  const _HeroSection({required this.onSearch, required this.onFilter});
+  const _HeroSection({required this.searchController, required this.onFilter});
 
-  final VoidCallback onSearch;
+  final TextEditingController searchController;
   final VoidCallback onFilter;
 
   @override
   Widget build(BuildContext context) {
-    // IntrinsicHeight：讓左右兩欄高度一致
-    return IntrinsicHeight(
+    // 固定高度：避免 TextField 在 IntrinsicHeight 內算不準而溢位
+    return SizedBox(height: 184,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -366,20 +370,6 @@ class _HeroSection extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 fit: StackFit.expand,
                 children: [
-                  // 右下角裝飾圓
-                  Positioned(
-                    right: -30,
-                    bottom: -30,
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: _C.white40,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: _C.ink, width: 3),
-                      ),
-                    ),
-                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -395,7 +385,7 @@ class _HeroSection extends StatelessWidget {
                                 foreground: _C.white,
                                 size: 9,
                               ),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: AppStroke.regular),
                               Flexible(
                                 child: Text(
                                   'BENTO GRID',
@@ -432,45 +422,54 @@ class _HeroSection extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // 迷你搜尋框：點下去前往搜尋分類頁
-                      _Tap(
-                        onTap: onSearch,
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 12),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 6,
+                      // 迷你搜尋框：真的可以輸入文字，輸入時不會跳到其他頁面
+                      Container(
+                        margin: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        decoration: const BoxDecoration(
+                          color: _C.white,
+                          border: Border.fromBorderSide(
+                            BorderSide(color: _C.ink, width: AppStroke.regular),
                           ),
-                          decoration: const BoxDecoration(
-                            color: _C.white,
-                            border: Border.fromBorderSide(
-                              BorderSide(color: _C.ink, width: 2),
+                          boxShadow: [
+                            BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.search,
+                              size: 16,
+                              color: _C.grey500,
                             ),
-                            boxShadow: [
-                              BoxShadow(color: _C.ink, offset: Offset(2, 2)),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.search,
-                                size: 16,
-                                color: _C.grey500,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                '搜尋專案...',
-                                style: _head(
-                                  11,
-                                  color: _C.grey400,
-                                  weight: FontWeight.w700,
+                            const SizedBox(width: AppStroke.regular),
+                            Expanded(
+                              child: TextField(
+                                controller: searchController,
+                                textInputAction: TextInputAction.search,
+                                cursorColor: _C.ink,
+                                style: _head(11, weight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  filled: false,
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  hintText: '搜尋專案...',
+                                  hintStyle: _head(
+                                    11,
+                                    color: _C.grey400,
+                                    weight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ),                    ],
                   ),
                 ],
               ),
@@ -617,9 +616,9 @@ class _CategoryStrip extends StatelessWidget {
                 decoration: BoxDecoration(
                   // 選中：黑底黃字；未選：白底黑字
                   color: i == selected ? _C.ink : _C.white,
-                  border: Border.all(color: _C.ink, width: 2),
+                  border: Border.all(color: _C.ink, width: AppStroke.regular),
                   boxShadow: const [
-                    BoxShadow(color: _C.ink, offset: Offset(2, 2)),
+                    BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset),
                   ],
                 ),
                 child: Text(
@@ -689,7 +688,7 @@ class _TallYellowCard extends StatelessWidget {
                       color: _C.ink,
                       child: Text('AS', style: _head(9, color: _C.white)),
                     ),
-                    const SizedBox(width: 4),
+                    const SizedBox(width: AppStroke.regular),
                     Expanded(
                       child: Text(
                         'Aether Studio',
@@ -722,8 +721,6 @@ class _TallYellowCard extends StatelessWidget {
                 // 預算白框
                 _NeoBox(
                   color: _C.white,
-                  border: 2,
-                  shadow: 2,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 4,
@@ -785,7 +782,7 @@ class _BrandCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(bottom: 6),
             decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: _C.ink, width: 2)),
+              border: Border(bottom: BorderSide(color: _C.ink, width: AppStroke.regular)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -850,7 +847,7 @@ class _BrandCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 8),
             decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: _C.ink, width: 2)),
+              border: Border(top: BorderSide(color: _C.ink, width: AppStroke.regular)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -877,10 +874,10 @@ class _BrandCard extends StatelessWidget {
                     decoration: const BoxDecoration(
                       color: _C.ink,
                       border: Border.fromBorderSide(
-                        BorderSide(color: _C.ink, width: 2),
+                        BorderSide(color: _C.ink, width: AppStroke.regular),
                       ),
                       boxShadow: [
-                        BoxShadow(color: _C.ink, offset: Offset(1, 1)),
+                        BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset),
                       ],
                     ),
                     child: const Icon(Icons.send, size: 15, color: _C.white),
@@ -965,8 +962,6 @@ class _PackagingCard extends StatelessWidget {
                 // 藍色預算塊
                 _NeoBox(
                   color: _C.blue,
-                  border: 2,
-                  shadow: 2,
                   padding: const EdgeInsets.all(6),
                   child: SizedBox(
                     width: double.infinity,
@@ -1030,7 +1025,7 @@ class _DarkUiCard extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 4),
             decoration: const BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: _C.grey700, width: 1),
+                bottom: BorderSide(color: _C.grey700, width: AppStroke.thin),
               ),
             ),
             child: Row(
@@ -1048,7 +1043,7 @@ class _DarkUiCard extends StatelessWidget {
           Row(
             children: [
               Container(width: 8, height: 8, color: _C.yellow),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppStroke.regular),
               Expanded(
                 child: Text(
                   'Neo Labs Studio',
@@ -1086,7 +1081,7 @@ class _DarkUiCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8),
             decoration: const BoxDecoration(
               border: Border(
-                top: BorderSide(color: Color(0xFF262626), width: 1),
+                top: BorderSide(color: Color(0xFF262626), width: AppStroke.thin),
               ),
             ),
             child: Row(
@@ -1144,7 +1139,6 @@ class _FeaturedCard extends StatelessWidget {
       onTap: onTap,
       child: _NeoBox(
         color: _C.white,
-        shadow: 5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -1281,7 +1275,7 @@ class _FeaturedCard extends StatelessWidget {
             // 底部：預算（黃）+ 投遞提案（紅）
             Container(
               decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: _C.ink, width: 3)),
+                border: Border(top: BorderSide(color: _C.ink, width: AppStroke.regular)),
               ),
               child: IntrinsicHeight(
                 child: Row(
@@ -1296,7 +1290,7 @@ class _FeaturedCard extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: _C.yellow,
                         border: Border(
-                          right: BorderSide(color: _C.ink, width: 3),
+                          right: BorderSide(color: _C.ink, width: AppStroke.regular),
                         ),
                       ),
                       child: Column(
@@ -1360,7 +1354,6 @@ class _ClientBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return _NeoBox(
       color: _C.yellow,
-      shadow: 5,
       padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1373,7 +1366,7 @@ class _ClientBanner extends StatelessWidget {
                 height: 36,
                 decoration: BoxDecoration(
                   color: _C.ink,
-                  border: Border.all(color: _C.ink, width: 2),
+                  border: Border.all(color: _C.ink, width: AppStroke.regular),
                 ),
                 child: const Icon(Icons.post_add, size: 20, color: _C.yellow),
               ),
@@ -1416,9 +1409,9 @@ class _ClientBanner extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: _C.red,
                 border: Border.fromBorderSide(
-                  BorderSide(color: _C.ink, width: 3),
+                  BorderSide(color: _C.ink, width: AppStroke.regular),
                 ),
-                boxShadow: [BoxShadow(color: _C.ink, offset: Offset(3, 3))],
+                boxShadow: [BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset)],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

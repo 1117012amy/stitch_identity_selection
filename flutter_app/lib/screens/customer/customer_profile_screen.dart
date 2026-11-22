@@ -4,57 +4,20 @@ import '../../core/app_text.dart';
 import '../../core/app_theme.dart';
 import '../../core/neo_button.dart';
 
-/// 客戶個人檔案頁。
+/// 客戶個人檔案頁（路由：/customer_profile）。
 ///
-/// 從客戶端底部導覽列的「個人」圖示進入（路由：/customer_profile）。
-/// 版型沿用 designer_profile_screen.dart 的新粗獷風格：
-/// 上方是暱稱＋頭像，中間是「自我介紹」卡片，下方是常用捷徑。
-class CustomerProfileScreen extends StatefulWidget {
+/// 版型與 designer_profile_screen.dart 完全相同，
+/// 差別只有稱呼：這裡顯示「客戶」而不是「設計師」。
+class CustomerProfileScreen extends StatelessWidget {
   const CustomerProfileScreen({super.key});
 
   @override
-  State<CustomerProfileScreen> createState() => _CustomerProfileScreenState();
-}
-
-class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
-  // 暱稱與自我介紹的輸入控制器；初始值取自 AppTheme 的全域狀態
-  late final TextEditingController _nameController;
-  late final TextEditingController _introController;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: AppTheme.customerNickname);
-    _introController = TextEditingController(text: AppTheme.customerIntro);
-  }
-
-  @override
-  void dispose() {
-    // 控制器要手動釋放，避免記憶體殘留
-    _nameController.dispose();
-    _introController.dispose();
-    super.dispose();
-  }
-
-  /// 把輸入內容存回全域狀態，並用 SnackBar 提示。
-  void _save() {
-    final name = _nameController.text.trim();
-    setState(() {
-      // 暱稱不能是空白，空白時退回預設名稱
-      AppTheme.customerNickname = name.isEmpty
-          ? CustomerProfileText.defaultName
-          : name;
-      AppTheme.customerIntro = _introController.text.trim();
-      _nameController.text = AppTheme.customerNickname;
-    });
-    FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text(CustomerProfileText.saved)));
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    // 稱呼：預設顯示客戶（AppTheme.customerNickname）
+    final name = args?['name'] as String? ?? AppTheme.customerNickname;
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: const ObscureAppBar(),
@@ -64,7 +27,6 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ── 頂部：暱稱＋標籤＋頭像 ──
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -73,9 +35,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppTheme.customerNickname,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          name,
                           style: const TextStyle(
                             fontFamily: 'Space Grotesk',
                             fontWeight: FontWeight.w900,
@@ -85,42 +45,72 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           ),
                         ),
                         const SizedBox(height: 7),
-                        const _ProfileTag(CustomerProfileText.tag),
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: [
+                            for (final tag in DesignerProfileText.defaultTags)
+                              _ProfileTag(tag),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: AppTheme.paper,
-                      border: Border.all(
-                        color: AppTheme.primary,
-                        width: AppStroke.regular,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: AppTheme.primary,
-                          offset: AppTheme.hardShadowOffset,
-                          blurRadius: 0,
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: AppTheme.paper,
+                          border: Border.all(
+                            color: AppTheme.primary,
+                            width: AppStroke.regular,
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppTheme.primary,
+                              offset: AppTheme.hardShadowOffset,
+                              blurRadius: 0,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.person_outline,
-                      size: 36,
-                      color: AppTheme.primary.withValues(alpha: 0.45),
-                    ),
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.person_outline,
+                          size: 36,
+                          color: AppTheme.primary.withValues(alpha: 0.45),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 5,
+                          ),
+                          color: AppTheme.accentRed,
+                          child: const Text(
+                            'NEW',
+                            style: TextStyle(
+                              color: AppTheme.onRed,
+                              fontFamily: 'Space Grotesk',
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-
-              // ── 中間：暱稱與自我介紹編輯卡片 ──
+              const SizedBox(height: 7),
               Container(
-                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: AppTheme.paper,
                   border: Border.all(
@@ -135,132 +125,81 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: const Row(
                   children: [
-                    const _FieldLabel(CustomerProfileText.fieldName),
-                    const SizedBox(height: 4),
-                    TextField(
-                      controller: _nameController,
-                      maxLength: 20,
-                      style: _fieldTextStyle,
-                      decoration: _underlineDecoration(
-                        CustomerProfileText.nameHint,
+                    Expanded(
+                      child: _ProfileStat(
+                        label: DesignerProfileText.views,
+                        value: '0',
                       ),
                     ),
-                    const SizedBox(height: 14),
-                    const _FieldLabel(CustomerProfileText.introTitle),
-                    const SizedBox(height: 4),
-                    TextField(
-                      controller: _introController,
-                      minLines: 4,
-                      maxLines: 8,
-                      maxLength: 300,
-                      style: _fieldTextStyle,
-                      decoration: _underlineDecoration(
-                        CustomerProfileText.introHint,
+                    Expanded(
+                      child: _ProfileStat(
+                        label: DesignerProfileText.likes,
+                        value: '0',
+                      ),
+                    ),
+                    Expanded(
+                      child: _ProfileStat(
+                        label: DesignerProfileText.followers,
+                        value: '0',
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
-              NeoButton(
-                onTap: _save,
-                color: AppTheme.accentYellow,
-                depth: 3,
-                borderWidth: AppStroke.regular,
-                child: const _ProfileActionLabel(CustomerProfileText.save),
-              ),
               const SizedBox(height: 10),
-
-              // ── 下方：常用捷徑 ──
               Row(
                 children: [
                   Expanded(
                     child: NeoButton(
                       onTap: () => Navigator.pushNamed(context, '/project'),
-                      color: AppTheme.primary,
-                      shadowColor: AppTheme.accentBlue,
+                      color: AppTheme.accentYellow,
                       depth: 3,
                       borderWidth: AppStroke.regular,
                       child: const _ProfileActionLabel(
-                        CustomerProfileText.myCommissions,
-                        color: AppTheme.paper,
+                        CustomerProfileText.projectHistory,
                       ),
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: NeoButton(
-                      onTap: () => Navigator.pushNamed(context, '/settings'),
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/customer_signup'),
+                      color: AppTheme.primary,
+                      shadowColor: AppTheme.accentBlue,
                       depth: 3,
                       borderWidth: AppStroke.regular,
                       child: const _ProfileActionLabel(
-                        CustomerProfileText.settings,
+                        CustomerProfileText.newTaskProject,
+                        color: AppTheme.paper,
                       ),
                     ),
                   ),
                 ],
               ),
+              const SizedBox(height: 24),
+              const Text(
+                DesignerProfileText.projectBrowse,
+                style: TextStyle(
+                  fontFamily: 'Space Grotesk',
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14,
+                  height: 1,
+                  letterSpacing: 0,
+                ),
+              ),
+              const SizedBox(height: 14),
+              // 客戶沒有自己的作品，固定顯示與設計師空狀態相同的預覽卡片
+              const _ProjectPreviewCard(),
             ],
           ),
         ),
       ),
-      // 底部導覽列：目前停在「個人」圖示
       bottomNavigationBar: ObscureNavBar(
         pageContext: context,
         activeRoute: '/customer_profile',
-      ),
-    );
-  }
-}
-
-// 輸入框共用的文字樣式與底線樣式（與客戶註冊頁一致）
-const TextStyle _fieldTextStyle = TextStyle(
-  fontSize: 12,
-  fontFamily: 'Space Grotesk',
-  letterSpacing: 0,
-);
-
-InputDecoration _underlineDecoration(String hint) {
-  return InputDecoration(
-    hintText: hint,
-    hintStyle: TextStyle(
-      color: AppTheme.primary.withValues(alpha: 0.3),
-      fontSize: 12,
-    ),
-    enabledBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppTheme.primary,
-        width: AppStroke.hairline,
-      ),
-    ),
-    focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: AppTheme.accentRed,
-        width: AppStroke.regular,
-      ),
-    ),
-    contentPadding: const EdgeInsets.symmetric(vertical: 6),
-    isDense: true,
-  );
-}
-
-class _FieldLabel extends StatelessWidget {
-  final String text;
-
-  const _FieldLabel(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontFamily: 'Space Grotesk',
-        fontWeight: FontWeight.bold,
-        fontSize: 11,
-        letterSpacing: 0,
       ),
     );
   }
@@ -273,23 +212,64 @@ class _ProfileTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-        decoration: BoxDecoration(
-          color: AppTheme.paper,
-          border: Border.all(color: AppTheme.primary, width: AppStroke.regular),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(
+        color: AppTheme.paper,
+        border: Border.all(color: AppTheme.primary, width: AppStroke.regular),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: 'Space Grotesk',
+          fontSize: 8,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 0,
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontFamily: 'Space Grotesk',
-            fontSize: 8,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 0,
+      ),
+    );
+  }
+}
+
+class _ProfileStat extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _ProfileStat({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10.5, horizontal: 4),
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(color: AppTheme.primary, width: AppStroke.regular),
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontFamily: 'Space Grotesk',
+              fontWeight: FontWeight.w900,
+              fontSize: 11,
+              height: 1,
+              letterSpacing: 0,
+            ),
           ),
-        ),
+          const SizedBox(height: 5),
+          Text(
+            value,
+            style: const TextStyle(
+              fontFamily: 'Space Grotesk',
+              fontWeight: FontWeight.w900,
+              fontSize: 15,
+              height: 1,
+              letterSpacing: 0,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -318,5 +298,153 @@ class _ProfileActionLabel extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _ProjectPreviewCard extends StatelessWidget {
+  const _ProjectPreviewCard();
+
+  @override
+  Widget build(BuildContext context) {
+    const title = DesignerProfileText.projectTitle;
+    const concept = DesignerProfileText.projectDescription;
+    const tags = DesignerProfileText.defaultTags;
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/project');
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final tabStepX = constraints.maxWidth * 0.6;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 32,
+                child: CustomPaint(
+                  painter: _SteppedTabBorderPainter(stepX: tabStepX),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: AppTheme.onBlue,
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                          height: 1,
+                          letterSpacing: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Transform.translate(
+                offset: const Offset(0, -AppStroke.regular),
+                child: Container(
+                  height: 76,
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
+                  decoration: BoxDecoration(
+                    color: AppTheme.paper,
+                    border: Border.all(
+                      color: AppTheme.paper,
+                      width: AppStroke.regular,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: AppTheme.primary,
+                        offset: AppTheme.hardShadowOffset,
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        concept,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: 'Space Grotesk',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
+                          height: 1,
+                          letterSpacing: 0,
+                        ),
+                      ),
+                      const Spacer(),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: tags
+                            .take(3)
+                            .map((tag) => _ProfileTag(tag))
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _SteppedTabBorderPainter extends CustomPainter {
+  final double stepX;
+
+  const _SteppedTabBorderPainter({required this.stepX});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final stroke = AppStroke.regular;
+    final halfStroke = stroke / 2;
+    final stepY = size.height - 12;
+    final fillPaint = Paint()
+      ..color = AppTheme.accentBlue
+      ..style = PaintingStyle.fill;
+    final strokePaint = Paint()
+      ..color = AppTheme.accentBlue
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke;
+
+    final fillPath = Path()
+      ..moveTo(halfStroke, size.height)
+      ..lineTo(halfStroke, halfStroke)
+      ..lineTo(stepX, halfStroke)
+      ..lineTo(stepX, stepY)
+      ..lineTo(size.width - halfStroke, stepY)
+      ..lineTo(size.width - halfStroke, size.height)
+      ..close();
+    final strokePath = Path()
+      ..moveTo(halfStroke, size.height)
+      ..lineTo(halfStroke, halfStroke)
+      ..lineTo(stepX, halfStroke)
+      ..lineTo(stepX, stepY)
+      ..lineTo(size.width - halfStroke, stepY)
+      ..lineTo(size.width - halfStroke, size.height);
+
+    canvas.save();
+    canvas.translate(AppTheme.hardShadowDepth, AppTheme.hardShadowDepth);
+    canvas.drawPath(fillPath, Paint()..color = AppTheme.primary);
+    canvas.restore();
+    canvas.drawPath(fillPath, fillPaint);
+    canvas.drawPath(strokePath, strokePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _SteppedTabBorderPainter oldDelegate) {
+    return oldDelegate.stepX != stepX;
   }
 }
