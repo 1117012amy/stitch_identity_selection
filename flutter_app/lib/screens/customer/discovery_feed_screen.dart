@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import '../../core/app_text.dart';
 import '../../core/app_theme.dart';
@@ -208,7 +210,19 @@ class DiscoveryFeedScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: NeoButton(
         onTap: () {
-          Navigator.pushNamed(context, '/project');
+          // 點擊作品方塊，連結到 Project Detail (Bauhaus Colors)
+          Navigator.pushNamed(
+            context,
+            '/project_detail',
+            arguments: {
+              'projectName': label,
+              'authorName': AppTheme.designerNickname,
+              'styleTags': [tag],
+              'tags': [tag],
+              'authorTags': DesignerProfileText.defaultTags,
+              'closeMode': 'customerFeed',
+            },
+          );
         },
         color: AppTheme.surface,
         depth: 3.0,
@@ -279,15 +293,30 @@ class DiscoveryFeedScreen extends StatelessWidget {
     final tag = project.styleTags.isNotEmpty
         ? project.styleTags.first
         : project.tags.firstOrNull ?? DiscoveryText.defaultSavedTag;
-    final label = project.fieldTags.isNotEmpty
-        ? project.fieldTags.first
-        : project.title;
+    // 圖片左下方的小字顯示作品名稱
+    final label = project.title;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: NeoButton(
         onTap: () {
-          // 已中斷與 project_detail_screen 的捷徑（暫不導向任何頁面）
+          // 點擊作品卡片，連結到 Project Detail (Bauhaus Colors)
+          Navigator.pushNamed(
+            context,
+            '/project_detail',
+            arguments: {
+              'projectName': project.title,
+              'authorName': AppTheme.designerNickname,
+              'imageBytes': project.imageBytes,
+              'imageBytesList': List<Uint8List>.from(project.imageBytesList),
+              'conceptText': project.concept,
+              'tags': project.tags,
+              'fieldTags': project.fieldTags,
+              'styleTags': project.styleTags,
+              'authorTags': DesignerProfileText.defaultTags,
+              'closeMode': 'customerFeed',
+            },
+          );
         },
         color: AppTheme.surface,
         depth: 3.0,

@@ -23,6 +23,7 @@ import 'screens/shared/identity_selection_screen.dart';
 import 'screens/shared/login_verification_screen.dart';
 import 'screens/shared/message_inbox_screen.dart';
 import 'screens/shared/notification_center_screen.dart';
+import 'screens/shared/project_detail_screen.dart';
 import 'screens/shared/project_screen.dart';
 import 'screens/shared/review_rating_screen.dart';
 import 'screens/shared/settings_screen.dart';
@@ -85,6 +86,7 @@ class _StitchAppState extends State<StitchApp> {
     '/new_work': (context) => const NewWorkScreen(),
     '/settings': (context) => const SettingsScreen(),
     '/project': (context) => const ProjectScreen(),
+    '/project_detail': (context) => const ProjectDetailScreen(),
     '/view_orders': (context) => const ViewOrdersScreen(),
   };
 

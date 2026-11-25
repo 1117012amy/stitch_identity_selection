@@ -612,7 +612,12 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                     imageAspectRatio: _uploadedImageAspectRatio,
                   ),
                 );
-                // 已中斷與 project_detail_screen 的捷徑：儲存後不再導向專案詳情頁
+                // 儲存後連結到 Project Detail (Bauhaus Colors)，帶入標題、敘述與圖片
+                Navigator.pushNamed(
+                  context,
+                  '/project_detail',
+                  arguments: arguments,
+                );
               },
               color: AppTheme.accentYellow,
               depth: 3.0,
@@ -649,7 +654,14 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                 ),
                 const SizedBox(width: 24),
                 GestureDetector(
-                  onTap: () {}, // 已中斷與 project_detail_screen 的捷徑（暫不導向任何頁面）
+                  // 預覽：只查看詳情頁，不儲存、不上傳
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    '/project_detail',
+                    arguments: _buildProjectDetailArguments(
+                      closeMode: 'preview',
+                    ),
+                  ),
                   child: const Text(
                     NewWorkText.preview,
                     style: TextStyle(

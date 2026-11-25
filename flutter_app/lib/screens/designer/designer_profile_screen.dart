@@ -1,3 +1,4 @@
+import 'dart:typed_data'; // 傳遞作品圖片資料 (Uint8List) 給專案詳情頁用
 
 import 'package:flutter/material.dart';
 
@@ -325,7 +326,29 @@ class _ProjectPreviewCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/project');
+        final saved = project;
+        if (saved == null) {
+          // 尚未上傳任何作品時的範例卡片，維持原本的專案頁
+          Navigator.pushNamed(context, '/project');
+          return;
+        }
+        // 點擊已上傳的專案資料夾，連結到 Project Detail (Bauhaus Colors)
+        Navigator.pushNamed(
+          context,
+          '/project_detail',
+          arguments: {
+            'projectName': saved.title,
+            'authorName': AppTheme.designerNickname,
+            'imageBytes': saved.imageBytes,
+            'imageBytesList': List<Uint8List>.from(saved.imageBytesList),
+            'conceptText': saved.concept,
+            'tags': saved.tags,
+            'fieldTags': saved.fieldTags,
+            'styleTags': saved.styleTags,
+            'authorTags': DesignerProfileText.defaultTags,
+            'closeMode': 'designerProfileReturn',
+          },
+        );
       },
       child: LayoutBuilder(
         builder: (context, constraints) {
