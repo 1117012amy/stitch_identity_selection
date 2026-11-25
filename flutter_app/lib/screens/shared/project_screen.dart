@@ -32,8 +32,11 @@ const String _perfumeUrl =
 
 /// 本頁各按鈕要前往的路由（集中管理，之後要改導向只改這裡）
 class _Routes {
-  /// 卡片、應徵 / 投遞 / 刊登按鈕 → 合約報價頁
+  /// 客戶刊登橫幅按鈕 → 合約報價頁
   static const String apply = '/contract_quote';
+
+  /// 任何一張委託卡片 / 應徵 / 投遞按鈕 → 客戶委託詳情頁（View Orders）
+  static const String viewOrders = '/view_orders';
 
   /// 搜尋框、快速篩選 → 搜尋分類頁
   static const String search = '/search_categories';
@@ -129,9 +132,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   Expanded(
                     child: Column(
                       children: [
-                        _TallYellowCard(onTap: () => _go(_Routes.apply)),
+                        _TallYellowCard(onTap: () => _go(_Routes.viewOrders)),
                         const SizedBox(height: 12),
-                        _BrandCard(onTap: () => _go(_Routes.apply)),
+                        _BrandCard(onTap: () => _go(_Routes.viewOrders)),
                       ],
                     ),
                   ),
@@ -144,10 +147,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
                           onBookmark: () {
                             setState(() => _bookmarked = !_bookmarked);
                           },
-                          onTap: () => _go(_Routes.apply),
+                          onTap: () => _go(_Routes.viewOrders),
                         ),
                         const SizedBox(height: 12),
-                        _DarkUiCard(onTap: () => _go(_Routes.apply)),
+                        _DarkUiCard(onTap: () => _go(_Routes.viewOrders)),
                       ],
                     ),
                   ),
@@ -155,7 +158,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               ),
               const SizedBox(height: 12),
               // 跨兩欄的焦點卡片
-              _FeaturedCard(onTap: () => _go(_Routes.apply)),
+              _FeaturedCard(onTap: () => _go(_Routes.viewOrders)),
               const SizedBox(height: 16),
               // 3. 底部客戶刊登橫幅
               _ClientBanner(onPost: () => _go(_Routes.apply)),

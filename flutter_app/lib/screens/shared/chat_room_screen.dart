@@ -1,9 +1,11 @@
-import 'dart:typed_data';
+﻿import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/app_text.dart';
 import '../../core/app_theme.dart';
+import 'image_viewer_screen.dart';
+import 'pdf_viewer_screen.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   final String contactName;
@@ -54,39 +56,43 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   late List<ChatMessageItem> _messages;
   bool _showEmojiPicker = false;
 
+  /// 對方是否正在打字：預設 false，之後接上即時通訊（例如 WebSocket 的「正在輸入」事件）時，
+  /// 呼叫 [_setContactTyping] 切換即可；對方傳出訊息時要設回 false。
+  bool _contactTyping = false;
+
+  // ignore: unused_element
+  void _setContactTyping(bool value) {
+    if (!mounted || _contactTyping == value) return;
+    setState(() => _contactTyping = value);
+    if (value) _scrollToBottom();
+  }
+
   @override
   void initState() {
     super.initState();
-    _messages = [
-      const ChatMessageItem(
-        id: '1',
-        text: ChatText.receivedMessage,
-        time: '09:41 AM',
-        isUser: false,
-      ),
-      const ChatMessageItem(
-        id: '2',
-        text: ChatText.sentMessage,
-        time: '09:43 AM',
-        isUser: true,
-        isRead: true,
-      ),
-      const ChatMessageItem(
-        id: '3',
-        text: ChatText.receivedImageMessage,
-        time: '09:45 AM',
-        isUser: false,
-        isImage: true,
-      ),
-      const ChatMessageItem(
-        id: '4',
-        text: ChatText.sentBrief,
-        time: '09:46 AM',
-        isUser: true,
-        isBrief: true,
-      ),
-    ];
+    _messages = []; // 預設訊息已移除，聊天室一開始是空的
   }
+
+  /// 純文字訊息的色票順序：紅 → 黃 → 藍（對方與自己的訊息一起排序）
+  static const List<Color> _textBubbleColors = [
+    AppTheme.accentRed,
+    AppTheme.accentYellow,
+    AppTheme.accentBlue,
+  ];
+
+  /// 是否為「純文字訊息」（圖片、PDF 檔案、簡報卡片不算，固定白色）
+  bool _isTextMessage(ChatMessageItem m) =>
+      !m.isImage && !m.isDocument && !m.isBrief;
+
+  /// 依這則文字訊息在所有文字訊息中的順序，取得紅黃藍循環色
+  Color _bubbleColorFor(ChatMessageItem msg) {
+    final index = _messages.where(_isTextMessage).toList().indexOf(msg);
+    return _textBubbleColors[index % _textBubbleColors.length];
+  }
+
+  /// 文字顏色：紅、藍底用白字，黃底用深色字，確保可讀
+  Color _textColorOn(Color bubble) =>
+      bubble == AppTheme.accentYellow ? AppTheme.primary : AppTheme.paper;
 
   @override
   void dispose() {
@@ -146,10 +152,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             color: AppTheme.surface,
             border: Border.all(color: AppTheme.primary, width: 2.0),
             boxShadow: const [
-              BoxShadow(
-                color: AppTheme.primary,
-                offset: Offset(4, 4),
-              ),
+              BoxShadow(color: AppTheme.primary, offset: Offset(4, 4)),
             ],
           ),
           child: Column(
@@ -217,10 +220,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           color: color,
           border: Border.all(color: AppTheme.primary, width: 1.5),
           boxShadow: const [
-            BoxShadow(
-              color: AppTheme.primary,
-              offset: Offset(2.5, 2.5),
-            ),
+            BoxShadow(color: AppTheme.primary, offset: Offset(2.5, 2.5)),
           ],
         ),
         child: Row(
@@ -247,8 +247,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Future<void> _pickImageFile() async {
     try {
       final ImagePicker picker = ImagePicker();
-      final XFile? image =
-          await picker.pickImage(source: ImageSource.gallery);
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image != null) {
         final bytes = await image.readAsBytes();
         final name = image.name;
@@ -312,8 +311,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   String _formatTime(DateTime time) {
-    final hour =
-        time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour = time.hour > 12
+        ? time.hour - 12
+        : (time.hour == 0 ? 12 : time.hour);
     final period = time.hour >= 12 ? 'PM' : 'AM';
     final minute = time.minute.toString().padLeft(2, '0');
     final formattedHour = hour.toString().padLeft(2, '0');
@@ -362,10 +362,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             color: AppTheme.surface,
             border: Border.all(color: AppTheme.primary, width: 2.0),
             boxShadow: const [
-              BoxShadow(
-                color: AppTheme.primary,
-                offset: Offset(4, 4),
-              ),
+              BoxShadow(color: AppTheme.primary, offset: Offset(4, 4)),
             ],
           ),
           child: Column(
@@ -419,10 +416,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           ),
                         ],
                       ),
-                      child: Text(
-                        emoji,
-                        style: const TextStyle(fontSize: 18),
-                      ),
+                      child: Text(emoji, style: const TextStyle(fontSize: 18)),
                     ),
                   );
                 },
@@ -440,9 +434,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: const BoxDecoration(
         color: AppTheme.surface,
-        border: Border(
-          top: BorderSide(color: AppTheme.primary, width: 1.5),
-        ),
+        border: Border(top: BorderSide(color: AppTheme.primary, width: 1.5)),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -467,10 +459,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       ),
                     ],
                   ),
-                  child: Text(
-                    emoji,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  child: Text(emoji, style: const TextStyle(fontSize: 16)),
                 ),
               ),
             );
@@ -496,8 +485,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     controller: _scrollController,
                     padding: const EdgeInsets.fromLTRB(15, 16, 15, 100),
                     children: [
-                      _buildDateHeader(_dateLabel(DateTime.now())),
-                      const SizedBox(height: 16),
+                      // 聊天室是空的時不顯示日期；有第一則訊息後才出現
+                      if (_messages.isNotEmpty) ...[
+                        _buildDateHeader(_dateLabel(DateTime.now())),
+                        const SizedBox(height: 16),
+                      ],
                       for (final msg in _messages) ...[
                         if (msg.isDocument)
                           _buildDocumentMessage(
@@ -505,6 +497,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             fileSize: msg.fileSizeStr ?? 'Document',
                             time: msg.time,
                             isUser: msg.isUser,
+                            bytes: msg.fileBytes,
                           )
                         else if (msg.isImage && msg.fileBytes != null)
                           _buildMessageWithRealImage(
@@ -528,15 +521,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             message: msg.text,
                             time: msg.time,
                             isRead: msg.isRead,
+                            bubbleColor: _bubbleColorFor(msg),
                           )
                         else
                           _buildReceivedMessage(
                             message: msg.text,
                             time: msg.time,
+                            bubbleColor: _bubbleColorFor(msg),
                           ),
                         const SizedBox(height: 16),
                       ],
-                      _buildTypingIndicator(),
+                      // 只有「對方正在打字」時才顯示輸入中
+                      if (_contactTyping) _buildTypingIndicator(),
                     ],
                   ),
                 ],
@@ -570,8 +566,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // 寬 44：讓返回圖示中心與設定圖示（ObscureAppBar 左側 ≡）同在左邊 34px
               SizedBox(
-                width: 48,
+                width: 44,
                 height: 48,
                 child: IconButton(
                   padding: EdgeInsets.zero,
@@ -585,7 +582,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
-              const SizedBox(width: 2),
+              const SizedBox(width: 6), // 原 48+2，縮小按鈕寬度後補回，頭像位置不變
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -759,6 +756,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget _buildReceivedMessage({
     required String message,
     required String time,
+    required Color bubbleColor,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -769,15 +767,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               constraints: BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
               child: Container(
                 padding: const EdgeInsets.all(12),
-                decoration: _messageBubbleDecoration(Colors.white),
+                decoration: _messageBubbleDecoration(bubbleColor),
                 child: Text(
                   message,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     height: 1.28,
                     letterSpacing: 0,
+                    color: _textColorOn(bubbleColor),
                   ),
                 ),
               ),
@@ -806,6 +805,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     required String message,
     required String time,
     bool isRead = false,
+    required Color bubbleColor,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -816,15 +816,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               constraints: BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
               child: Container(
                 padding: const EdgeInsets.all(12),
-                decoration: _messageBubbleDecoration(AppTheme.neutralLight),
+                decoration: _messageBubbleDecoration(bubbleColor),
                 child: Text(
                   message,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                     height: 1.28,
                     letterSpacing: 0,
+                    color: _textColorOn(bubbleColor),
                   ),
                 ),
               ),
@@ -862,87 +863,116 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     );
   }
 
+  /// 點擊檔案泡泡：PDF 開啟全螢幕檢視；其他格式（doc/docx/txt）暫不支援預覽
+  void _openDocument(BuildContext context, String fileName, Uint8List? bytes) {
+    final isPdf = fileName.toLowerCase().endsWith('.pdf');
+    if (bytes == null || !isPdf) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(bytes == null ? '此檔案沒有可預覽的內容' : '目前僅支援預覽 PDF 檔案'),
+        ),
+      );
+      return;
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => PdfViewerScreen(bytes: bytes, fileName: fileName),
+      ),
+    );
+  }
+
   Widget _buildDocumentMessage({
     required String fileName,
     required String fileSize,
     required String time,
     required bool isUser,
+    Uint8List? bytes, // 檔案內容；有資料才能點擊預覽
   }) {
-    final bubbleColor = isUser ? AppTheme.neutralLight : Colors.white;
+    const bubbleColor = AppTheme.paper; // PDF 檔案泡泡固定白色
     return Column(
-      crossAxisAlignment:
-          isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: isUser
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         LayoutBuilder(
           builder: (context, constraints) {
             return ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: _messageBubbleDecoration(bubbleColor),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppTheme.accentRed,
-                        border: Border.all(color: AppTheme.primary, width: 1.5),
-                      ),
-                      child: const Icon(
-                        Icons.picture_as_pdf,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            fileName,
-                            style: const TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
+              // 點擊檔案泡泡：PDF 開啟檢視頁，其他格式提示暫不支援預覽
+              child: GestureDetector(
+                onTap: () => _openDocument(context, fileName, bytes),
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: _messageBubbleDecoration(bubbleColor),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppTheme.accentRed,
+                          border: Border.all(
+                            color: AppTheme.primary,
+                            width: 1.5,
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            fileSize,
-                            style: TextStyle(
-                              fontFamily: 'Space Grotesk',
-                              fontSize: 10,
-                              color: AppTheme.primary.withValues(alpha: 0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary,
-                        border: Border.all(color: AppTheme.primary, width: 1.0),
-                      ),
-                      child: const Text(
-                        'PDF',
-                        style: TextStyle(
+                        ),
+                        child: const Icon(
+                          Icons.picture_as_pdf,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 9,
+                          size: 24,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              fileName,
+                              style: const TextStyle(
+                                fontFamily: 'Space Grotesk',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              fileSize,
+                              style: TextStyle(
+                                fontFamily: 'Space Grotesk',
+                                fontSize: 10,
+                                color: AppTheme.primary.withValues(alpha: 0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary,
+                          border: Border.all(
+                            color: AppTheme.primary,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: const Text(
+                          'PDF',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 9,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -973,34 +1003,54 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     required bool isUser,
   }) {
     return Column(
-      crossAxisAlignment:
-          isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: isUser
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         LayoutBuilder(
           builder: (context, constraints) {
             return ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth * 0.8),
               child: Container(
                 padding: const EdgeInsets.all(8),
-                decoration: _messageBubbleDecoration(
-                  isUser ? AppTheme.neutralLight : Colors.white,
-                ),
+                decoration: _messageBubbleDecoration(AppTheme.paper), // 圖片固定白色
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: constraints.maxWidth * 0.55,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppTheme.primary, width: 1.5),
+                    // 點擊縮圖 → 開啟全螢幕檢視頁（可縮放、拖曳、雙擊放大）
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        PageRouteBuilder(
+                          opaque: false,
+                          transitionDuration: const Duration(milliseconds: 200),
+                          pageBuilder: (_, __, ___) => ImageViewerScreen(
+                            bytes: bytes,
+                            fileName: fileName,
+                            heroTag: bytes, // 以圖片資料當 Hero 標籤，確保每張圖唯一
+                          ),
+                          transitionsBuilder: (_, animation, __, child) =>
+                              FadeTransition(opacity: animation, child: child),
+                        ),
                       ),
-                      child: Image.memory(
-                        bytes,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Center(
-                          child: Icon(Icons.broken_image, size: 36),
+                      child: Container(
+                        width: double.infinity,
+                        height: constraints.maxWidth * 0.55,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppTheme.primary,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Hero(
+                          tag: bytes,
+                          child: Image.memory(
+                            bytes,
+                            fit: BoxFit.cover, // 縮圖維持裁切，原圖在檢視頁完整顯示
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(
+                                  child: Icon(Icons.broken_image, size: 36),
+                                ),
+                          ),
                         ),
                       ),
                     ),
@@ -1213,10 +1263,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               color: Colors.white,
               border: Border.all(color: AppTheme.primary, width: 1.5),
               boxShadow: const [
-                BoxShadow(
-                  color: AppTheme.primary,
-                  offset: Offset(2.5, 2.5),
-                ),
+                BoxShadow(color: AppTheme.primary, offset: Offset(2.5, 2.5)),
               ],
             ),
             child: IconButton(
@@ -1235,10 +1282,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 color: Colors.white,
                 border: Border.all(color: AppTheme.primary, width: 1.5),
                 boxShadow: const [
-                  BoxShadow(
-                    color: AppTheme.primary,
-                    offset: Offset(2.5, 2.5),
-                  ),
+                  BoxShadow(color: AppTheme.primary, offset: Offset(2.5, 2.5)),
                 ],
               ),
               child: Row(
@@ -1287,10 +1331,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               color: AppTheme.primary,
               border: Border.all(color: AppTheme.primary, width: 1.5),
               boxShadow: const [
-                BoxShadow(
-                  color: AppTheme.primary,
-                  offset: Offset(2.5, 2.5),
-                ),
+                BoxShadow(color: AppTheme.primary, offset: Offset(2.5, 2.5)),
               ],
             ),
             child: IconButton(
@@ -1397,8 +1438,9 @@ class _BouncingWhiteSquaresState extends State<_BouncingWhiteSquares>
           children: List.generate(3, (index) {
             final double step = index * 0.2;
             final double animVal = (_controller.value - step) % 1.0;
-            final double bounce =
-                animVal < 0.4 ? -3.5 * (1.0 - (animVal / 0.4 - 0.5).abs() * 2) : 0.0;
+            final double bounce = animVal < 0.4
+                ? -3.5 * (1.0 - (animVal / 0.4 - 0.5).abs() * 2)
+                : 0.0;
 
             return Padding(
               padding: EdgeInsets.only(right: index < 2 ? 4.0 : 0.0),
@@ -1420,4 +1462,3 @@ class _BouncingWhiteSquaresState extends State<_BouncingWhiteSquares>
     );
   }
 }
-

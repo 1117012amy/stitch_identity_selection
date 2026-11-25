@@ -26,6 +26,7 @@ import 'screens/shared/notification_center_screen.dart';
 import 'screens/shared/project_screen.dart';
 import 'screens/shared/review_rating_screen.dart';
 import 'screens/shared/settings_screen.dart';
+import 'screens/shared/view_orders_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,6 +85,7 @@ class _StitchAppState extends State<StitchApp> {
     '/new_work': (context) => const NewWorkScreen(),
     '/settings': (context) => const SettingsScreen(),
     '/project': (context) => const ProjectScreen(),
+    '/view_orders': (context) => const ViewOrdersScreen(),
   };
 
   static const Set<String> _designerOnlyRoutes = {
