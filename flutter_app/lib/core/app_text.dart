@@ -60,6 +60,8 @@ class CustomerSignupText {
   static const nameHint = '\u8f38\u5165\u59d3\u540d';
   static const phone = '\u96fb\u8a71';
   static const phoneHint = '\u8f38\u5165\u96fb\u8a71';
+  static const projectName = '\u5c08\u6848\u540d\u7a31';
+  static const projectNameHint = '\u8f38\u5165\u5c08\u6848\u540d\u7a31';
   static const requirement = '\u9700\u6c42';
   static const requirementHint =
       '\u63cf\u8ff0\u4f60\u7684\u9700\u6c42\u5927\u7db1';

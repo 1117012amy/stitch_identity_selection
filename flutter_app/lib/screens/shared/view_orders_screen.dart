@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_theme.dart';
 import '../../core/customer_requirement.dart';
+import '../../core/requirement_file_gallery.dart';
 
 // ============================================================
 // ViewOrdersScreen：客戶委託詳情頁（COMMISSION DETAIL）
@@ -21,12 +22,11 @@ class _C {
   static const Color blue = Color(0xFF0055FF);
   static const Color white = Color(0xFFFFFFFF);
   static const Color grey500 = Color(0xFF737373);
-  static const Color grey100 = Color(0xFFF5F5F5);
 }
 
 // 範例內容（客戶尚未填寫時使用）
 const String _sampleName = '鮭魚創意實業';
-const String _sampleRole = 'ALEX CHEN 總監';
+const String _sampleProject = '原穀酵母 春季包裝企劃';
 const String _samplePhone = '+886 0912 345 678';
 const String _sampleBrief =
     '我們正在籌備 2025 年春季有機烘焙品牌『原穀酵母』全套包裝與快閃店主視覺。'
@@ -87,8 +87,10 @@ class ViewOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final req = CustomerRequirementStore.current;
     // 有填的欄位用客戶資料，沒填的用範例
-    final hasName = req.name.trim().isNotEmpty;
-    final name = hasName ? req.name.trim() : _sampleName;
+    final name = req.name.trim().isEmpty ? _sampleName : req.name.trim();
+    final projectName = req.projectName.trim().isEmpty
+        ? _sampleProject
+        : req.projectName.trim();
     final phone = req.phone.trim().isEmpty ? _samplePhone : req.phone.trim();
     final brief = req.description.trim().isEmpty
         ? _sampleBrief
@@ -116,19 +118,16 @@ class ViewOrdersScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _clientCard(name, hasName ? '客戶' : _sampleRole),
+              _clientCard(projectName, name),
               const SizedBox(height: 12),
               _phoneCard(phone),
               const SizedBox(height: 12),
               _briefCard(brief),
-              if (req.hasFile && !req.isPdf) ...[
-                const SizedBox(height: 12),
-                _imageCard(req),
-              ],
               const SizedBox(height: 12),
-              if (req.hasFile && req.isPdf)
-                _pdfCard(req.fileName!, req.fileSizeText)
-              else if (!req.hasFile)
+              // 有上傳就顯示縮圖列（順序、數量、點擊放大）；沒上傳顯示範例檔案卡
+              if (req.hasFile)
+                _filesCard(context, req.files)
+              else
                 _pdfCard('品牌視覺調性參考指南_2024.pdf', null),
             ],
           ),
@@ -137,8 +136,8 @@ class ViewOrdersScreen extends StatelessWidget {
     );
   }
 
-  /// 1. CLIENT DOSSIER：稱呼（紅色卡 + 黃色硬陰影）
-  Widget _clientCard(String name, String role) {
+  /// 1. CLIENT DOSSIER：大標題＝專案名稱；黑色「客戶」色塊右邊＝客戶名稱
+  Widget _clientCard(String projectName, String clientName) {
     return _NeoBox(
       color: _C.red,
       shadowColor: _C.yellow,
@@ -170,21 +169,36 @@ class ViewOrdersScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 10),
-          Text(name, style: _head(24, color: _C.white, height: 1.1)),
+          // 專案名稱（客戶自己命名）
+          Text(projectName, style: _head(24, color: _C.white, height: 1.1)),
           const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: _C.ink,
-              border: Border.all(color: _C.white, width: AppStroke.regular),
-            ),
-            child: Text(role, style: _head(12, color: _C.white)),
+          Row(
+            children: [
+              // 黑色「客戶」色塊
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: _C.ink,
+                  border: Border.all(color: _C.white, width: AppStroke.regular),
+                ),
+                child: Text('客戶', style: _head(12, color: _C.white)),
+              ),
+              const SizedBox(width: 10),
+              // 客戶名稱：放在黑色色塊右邊
+              Expanded(
+                child: Text(
+                  clientName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: _head(14, color: _C.white),
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
-
   /// 2. DIRECT LINE：電話（黑色卡 + 紅色硬陰影）
   Widget _phoneCard(String phone) {
     return _NeoBox(
@@ -300,49 +314,46 @@ class ViewOrdersScreen extends StatelessWidget {
     );
   }
 
-  /// 4A. VISUAL REF：客戶上傳的圖片
-  Widget _imageCard(CustomerRequirement req) {
+  /// 4A. VISUAL REF：客戶上傳的圖片 / PDF（縮圖含上傳順序，點一下放大查看）
+  Widget _filesCard(BuildContext context, List<RequirementFile> files) {
     return _NeoBox(
       color: _C.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // 黑色標題條：與 project 卡片的標題條相同
+          // 黑色標題條：與 project 卡片的標題條相同，右側顯示附件數量
           Container(
             color: _C.ink,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('VISUAL REF 01 / 意象提案',
+                Text('VISUAL REF / 附件',
                     style: _head(10, color: _C.yellow)),
-                Text('FIG. A', style: _head(10, color: _C.white)),
+                Text('共 ${files.length} 個', style: _head(10, color: _C.white)),
               ],
             ),
           ),
-          Container(
-            decoration: const BoxDecoration(
-              color: _C.grey100,
-              border: Border(
-                bottom: BorderSide(color: _C.ink, width: AppStroke.regular),
-              ),
-            ),
-            clipBehavior: Clip.hardEdge,
-            child: Image.memory(
-              req.fileBytes!,
-              width: double.infinity,
-              height: 200,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const SizedBox(
-                height: 200,
-                child: Center(child: Icon(Icons.broken_image_outlined)),
-              ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (var i = 0; i < files.length; i++)
+                  RequirementThumb(
+                    file: files[i],
+                    order: i + 1,
+                    size: 96,
+                    onTap: () => showRequirementViewer(context, files, i),
+                  ),
+              ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
             child: Text(
-              'MOODBOARD SAMPLE',
+              '編號為上傳順序，點一下可放大查看',
               style: _head(9, color: _C.grey500, weight: FontWeight.w700),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_theme.dart';
+import '../../core/customer_requirement.dart';
 
 // ============================================================
 // ProjectScreen：「尋找委託 (Bento Masonry)」介面
@@ -16,19 +17,10 @@ class _C {
   static const Color red = Color(0xFFFF3F3F);
   static const Color blue = Color(0xFF0055FF);
   static const Color white = Color(0xFFFFFFFF);
-  static const Color cream = Color(0xFFEEE8D9);
   static const Color grey400 = Color(0xFFA3A3A3);
   static const Color grey500 = Color(0xFF737373);
-  static const Color grey600 = Color(0xFF525252);
-  static const Color grey700 = Color(0xFF404040);
   static const Color white80 = Color(0xCCFFFFFF); // 白色 80% 透明
 }
-
-/// 本頁用到的圖片網址（與 HTML 版相同）
-const String _posterUrl =
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuC8IONlECFAgUjRUmAjRSRcrTPIwZJ0vk02NMZtgQBIViPJm_ocigxbthPqH4Vvcj6nvGs-XO2VkmkOHtS3hnL4-6KooSYHBH9o__fveB8IYZIYCSenfTQRXkKvxlmBZGQoCLf4XeoI_5B4veC5thZ_pSUgghrcIkUYBqTXZKCaUUV0y6Kyl7-xQvFLGnTlvCILBarg_YlSjzqx7-H0QYpnt667vyPS9jmyO0TYHnbe';
-const String _perfumeUrl =
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDIxj2U8rlpXXasTLMVO4ltmUQgrChfmm1ZOolK2bOLfTrYeMQWOGfGC5NQHXZEAMZWSVoFLyucGKezwYjtacaJ00XOAM4cAfZVCV159adDlPpmYiLYFMWBfPR6v8YzWGAdydKHaoaKIxbX4N-7RLjN2CE760Ce2yeK9V2jzRIN8-K1nNm_ntq6QOspvQz0j06gHrvWitE5wGWavTg-e0aZ0EfFKYAKgI0c9Nh9KeCJ';
 
 /// 本頁各按鈕要前往的路由（集中管理，之後要改導向只改這裡）
 class _Routes {
@@ -76,9 +68,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
   // 搜尋框的輸入內容控制器（要在 dispose 釋放）
   final TextEditingController _searchController = TextEditingController();
 
-  // 卡片 B 右上角的書籤是否已收藏
-  bool _bookmarked = false;
-
   static const List<String> _categories = [
     '全部 (142)',
     '品牌識別',
@@ -125,40 +114,21 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              // 2. 雙欄 Masonry 卡片
+              // 2. 客戶上傳的委託（目前只顯示一個；客戶上傳後才改成上傳內容）
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: Column(
-                      children: [
-                        _TallYellowCard(onTap: () => _go(_Routes.viewOrders)),
-                        const SizedBox(height: 12),
-                        _BrandCard(onTap: () => _go(_Routes.viewOrders)),
-                      ],
+                    child: _CommissionCard(
+                      requirement: CustomerRequirementStore.current,
+                      onTap: () => _go(_Routes.viewOrders),
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        _PackagingCard(
-                          bookmarked: _bookmarked,
-                          onBookmark: () {
-                            setState(() => _bookmarked = !_bookmarked);
-                          },
-                          onTap: () => _go(_Routes.viewOrders),
-                        ),
-                        const SizedBox(height: 12),
-                        _DarkUiCard(onTap: () => _go(_Routes.viewOrders)),
-                      ],
-                    ),
-                  ),
+                  // 右欄留空：和舊的雙欄版面一樣，卡片只佔半寬
+                  const Expanded(child: SizedBox()),
                 ],
               ),
-              const SizedBox(height: 12),
-              // 跨兩欄的焦點卡片
-              _FeaturedCard(onTap: () => _go(_Routes.viewOrders)),
               const SizedBox(height: 16),
               // 3. 底部客戶刊登橫幅
               _ClientBanner(onPost: () => _go(_Routes.apply)),
@@ -185,13 +155,11 @@ class _NeoBox extends StatelessWidget {
   const _NeoBox({
     required this.color,
     required this.child,
-    this.shadowColor = _C.ink,
     this.padding = EdgeInsets.zero,
   });
 
   final Color color;
   final Widget child;
-  final Color shadowColor;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -201,7 +169,7 @@ class _NeoBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         border: Border.all(color: _C.ink, width: AppStroke.regular),
-        boxShadow: [BoxShadow(color: shadowColor, offset: AppTheme.hardShadowOffset)],
+        boxShadow: [BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset)],
       ),
       child: child,
     );
@@ -256,46 +224,6 @@ class _Tag extends StatelessWidget {
   }
 }
 
-/// 黑白灰階海報圖（載入失敗時顯示深色底），可疊放標籤
-class _PosterImage extends StatelessWidget {
-  const _PosterImage({required this.url, required this.height, this.overlay});
-
-  final String url;
-  final double height;
-  final Widget? overlay;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF171717),
-        border: Border(bottom: BorderSide(color: _C.ink, width: AppStroke.regular)),
-      ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 灰階濾鏡：和 HTML 的 grayscale + contrast 效果相近
-          ColorFiltered(
-            colorFilter: const ColorFilter.mode(
-              Colors.grey,
-              BlendMode.saturation,
-            ),
-            child: Image.network(
-              url,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>
-                  const ColoredBox(color: Color(0xFF171717)),
-            ),
-          ),
-          ?overlay,
-        ],
-      ),
-    );
-  }
-}
-
 /// 帶箭頭 / 圖示的按鈕（紅、黑、黃色卡片按鈕共用）
 class _ActionButton extends StatelessWidget {
   const _ActionButton({
@@ -304,9 +232,6 @@ class _ActionButton extends StatelessWidget {
     required this.background,
     required this.foreground,
     required this.onTap,
-    this.shadowColor = _C.ink,
-    this.verticalPadding = 6,
-    this.expand = true,
   });
 
   final String label;
@@ -314,31 +239,25 @@ class _ActionButton extends StatelessWidget {
   final Color background;
   final Color foreground;
   final VoidCallback onTap;
-  final Color shadowColor;
-  final double verticalPadding;
-  final bool expand;
 
   @override
   Widget build(BuildContext context) {
     return _Tap(
       onTap: onTap,
       child: Container(
-        width: expand ? double.infinity : null,
-        padding: EdgeInsets.symmetric(
-          horizontal: expand ? 0 : 8,
-          vertical: verticalPadding,
-        ),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: background,
           border: Border.all(color: _C.ink, width: AppStroke.regular),
-          boxShadow: [BoxShadow(color: shadowColor, offset: AppTheme.hardShadowOffset)],
+          boxShadow: [BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset)],
         ),
         child: Row(
-          mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(label, style: _head(10, color: foreground)),
-            const SizedBox(width: AppStroke.regular),
+            const SizedBox(width: 4),
             Icon(icon, size: 13, color: foreground),
           ],
         ),
@@ -388,7 +307,7 @@ class _HeroSection extends StatelessWidget {
                                 foreground: _C.white,
                                 size: 9,
                               ),
-                              const SizedBox(width: AppStroke.regular),
+                              const SizedBox(width: 4),
                               Flexible(
                                 child: Text(
                                   'BENTO GRID',
@@ -445,7 +364,7 @@ class _HeroSection extends StatelessWidget {
                               size: 16,
                               color: _C.grey500,
                             ),
-                            const SizedBox(width: AppStroke.regular),
+                            const SizedBox(width: 4),
                             Expanded(
                               child: TextField(
                                 controller: searchController,
@@ -638,704 +557,123 @@ class _CategoryStrip extends StatelessWidget {
 }
 
 // ------------------------------------------------------------
-// 左欄 卡片 A：黃色高卡（海報）
+// 客戶上傳的委託卡片
+// 資料來自 CustomerRequirementStore（customer_signup_screen 上傳的內容）：
+//  - 圖片：客戶上傳的第一張圖片（略過 PDF）
+//  - 專案名稱：圖片下方、較醒目的粗體文字
+//  - 客戶姓名：專案名稱上方的灰色小字
+// 客戶還沒上傳時，只顯示一個示範卡片；上傳後就改成客戶的內容。
 // ------------------------------------------------------------
-class _TallYellowCard extends StatelessWidget {
-  const _TallYellowCard({required this.onTap});
+class _CommissionCard extends StatelessWidget {
+  const _CommissionCard({required this.requirement, required this.onTap});
 
+  final CustomerRequirement requirement;
   final VoidCallback onTap;
 
-  @override
-  Widget build(BuildContext context) {
-    return _NeoBox(
-      color: _C.yellow,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // 黑色標題條
-          Container(
-            color: _C.ink,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('#001 VI', style: _head(10, color: _C.yellow)),
-                const _Tag('急件', background: _C.red, foreground: _C.white),
-              ],
-            ),
-          ),
-          _PosterImage(
-            url: _posterUrl,
-            height: 176,
-            overlay: const Positioned(
-              left: 4,
-              bottom: 4,
-              child: _Tag(
-                '#海報周邊',
-                background: _C.ink,
-                foreground: _C.white,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 16,
-                      height: 16,
-                      alignment: Alignment.center,
-                      color: _C.ink,
-                      child: Text('AS', style: _head(9, color: _C.white)),
-                    ),
-                    const SizedBox(width: AppStroke.regular),
-                    Expanded(
-                      child: Text(
-                        'Aether Studio',
-                        overflow: TextOverflow.ellipsis,
-                        style: _head(10),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'CYBER-PUNK 展覽主視覺與周邊系統',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: _head(14, height: 1.2),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '新媒體科幻展空間導視、限量吊牌與字體重組 Brutalist 規範。',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: _head(
-                    10,
-                    color: const Color(0xFF262626),
-                    weight: FontWeight.w500,
-                    height: 1.3,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                // 預算白框
-                _NeoBox(
-                  color: _C.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '固定預算',
-                          style: _head(
-                            8,
-                            color: _C.grey600,
-                            weight: FontWeight.w700,
-                            height: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text('NT\$ 85,000', style: _head(12, height: 1)),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _ActionButton(
-                  label: '應徵提案',
-                  icon: Icons.arrow_forward,
-                  background: _C.red,
-                  foreground: _C.white,
-                  onTap: onTap,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  /// 第一張圖片；如果檔案裡只有 PDF 就回傳 null
+  RequirementFile? get _firstImage {
+    for (final file in requirement.files) {
+      if (!file.isPdf) return file;
+    }
+    return null;
   }
-}
-
-// ------------------------------------------------------------
-// 左欄 卡片 E：白色品牌識別卡
-// ------------------------------------------------------------
-class _BrandCard extends StatelessWidget {
-  const _BrandCard({required this.onTap});
-
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return _NeoBox(
-      color: _C.white,
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 標題列 + 底線
-          Container(
-            padding: const EdgeInsets.only(bottom: 6),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: _C.ink, width: AppStroke.regular)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const _Tag(
-                  '#004 VI',
-                  background: _C.ink,
-                  foreground: _C.yellow,
-                  size: 9,
-                ),
-                Text(
-                  '剩餘 5 天',
-                  style: _head(
-                    9,
-                    color: _C.grey500,
-                    weight: FontWeight.w700,
+    final image = _firstImage;
+    final hasData = !requirement.isEmpty;
+
+    // 專案名稱：有填就用客戶的；沒填但有上傳其他內容 → 「未命名專案」；完全沒上傳 → 示範文字
+    final projectName = requirement.projectName.trim().isNotEmpty
+        ? requirement.projectName.trim()
+        : (hasData ? '未命名專案' : '示範專案名稱');
+
+    // 客戶姓名：同上，有上傳卻沒填姓名就不顯示這一行
+    final clientName = requirement.name.trim().isNotEmpty
+        ? requirement.name.trim()
+        : (hasData ? '' : '客戶姓名');
+
+    return _Tap(
+      onTap: onTap,
+      child: _NeoBox(
+        color: _C.yellow,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // 黑色標題條（舊卡片格式）
+            Container(
+              color: _C.ink,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text('#001', style: _head(10, color: _C.yellow)),
+            ),            // 圖片區：客戶的第一張圖；沒有圖片時顯示深色底 + 圖示
+            Container(
+              height: 176,
+              decoration: const BoxDecoration(
+                color: Color(0xFF171717),
+                border: Border(
+                  bottom: BorderSide(
+                    color: _C.ink,
+                    width: AppStroke.regular,
                   ),
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            children: [
-              _Tag(
-                '#台式',
-                background: _C.cream,
-                foreground: _C.ink,
-                borderColor: _C.ink,
               ),
-              _Tag(
-                '#粗獷',
-                background: _C.yellow,
-                foreground: _C.ink,
-                borderColor: _C.ink,
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            '獨立選物空間品牌識別手冊與招牌字體',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: _head(12, height: 1.2),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '赤峰街復古老屋改裝，需重組漢字排版與金屬招牌施工完稿。',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: _head(
-              10,
-              color: _C.grey600,
-              weight: FontWeight.w500,
-              height: 1.3,
+              child: image == null
+                  ? const Center(
+                      child: Icon(
+                        Icons.image_outlined,
+                        size: 40,
+                        color: _C.grey500,
+                      ),
+                    )
+                  : Image.memory(
+                      image.bytes,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(
+                            child: Icon(
+                              Icons.broken_image_outlined,
+                              size: 40,
+                              color: _C.grey500,
+                            ),
+                          ),
+                    ),
             ),
-          ),
-          const SizedBox(height: 10),
-          // 預算 + 快速投遞鈕
-          Container(
-            padding: const EdgeInsets.only(top: 8),
-            decoration: const BoxDecoration(
-              border: Border(top: BorderSide(color: _C.ink, width: AppStroke.regular)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 客戶姓名：灰色小字
+                  if (clientName.isNotEmpty) ...[
                     Text(
-                      '專案預算',
+                      clientName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: _head(
-                        8,
+                        10,
                         color: _C.grey500,
                         weight: FontWeight.w700,
                       ),
                     ),
-                    Text('NT\$ 45,000', style: _head(12)),
+                    const SizedBox(height: 2),
                   ],
-                ),
-                _Tap(
-                  onTap: onTap,
-                  child: Container(
-                    width: 28,
-                    height: 28,
-                    decoration: const BoxDecoration(
-                      color: _C.ink,
-                      border: Border.fromBorderSide(
-                        BorderSide(color: _C.ink, width: AppStroke.regular),
-                      ),
-                      boxShadow: [
-                        BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset),
-                      ],
-                    ),
-                    child: const Icon(Icons.send, size: 15, color: _C.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------
-// 右欄 卡片 B：白色方形（包裝）
-// ------------------------------------------------------------
-class _PackagingCard extends StatelessWidget {
-  const _PackagingCard({
-    required this.bookmarked,
-    required this.onBookmark,
-    required this.onTap,
-  });
-
-  final bool bookmarked;
-  final VoidCallback onBookmark;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return _NeoBox(
-      color: _C.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            color: _C.ink,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('#002 PKG', style: _head(10, color: _C.blue)),
-                // 書籤：點擊切換收藏
-                _Tap(
-                  onTap: onBookmark,
-                  child: Icon(
-                    bookmarked ? Icons.bookmark : Icons.bookmark_border,
-                    size: 15,
-                    color: bookmarked ? _C.yellow : const Color(0xFFD4D4D4),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          _PosterImage(
-            url: _perfumeUrl,
-            height: 112,
-            overlay: const Positioned(
-              right: 4,
-              bottom: 4,
-              child: _Tag('SPEC', background: _C.blue, foreground: _C.white),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Obscure Parfums',
-                  overflow: TextOverflow.ellipsis,
-                  style: _head(9, color: _C.grey500, weight: FontWeight.w700),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '2025 秋冬香氛系列瓶身與結構外盒',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: _head(12, height: 1.2),
-                ),
-                const SizedBox(height: 10),
-                // 藍色預算塊
-                _NeoBox(
-                  color: _C.blue,
-                  padding: const EdgeInsets.all(6),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '預算上限',
-                          style: _head(
-                            8,
-                            color: _C.white80,
-                            weight: FontWeight.w700,
-                            height: 1,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          'NT\$ 120,000',
-                          style: _head(12, color: _C.white, height: 1),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _ActionButton(
-                  label: '投遞',
-                  icon: Icons.arrow_forward,
-                  background: _C.ink,
-                  foreground: _C.white,
-                  verticalPadding: 4,
-                  onTap: onTap,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------
-// 右欄 卡片 C：黑色緊湊卡（數位 UI）
-// ------------------------------------------------------------
-class _DarkUiCard extends StatelessWidget {
-  const _DarkUiCard({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return _NeoBox(
-      color: _C.ink,
-      shadowColor: _C.red,
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 4),
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: _C.grey700, width: AppStroke.thin),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('#003 UI/UX', style: _head(9, color: _C.yellow)),
-                Text(
-                  '剩 12 天',
-                  style: _head(9, color: _C.red, weight: FontWeight.w700),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Container(width: 8, height: 8, color: _C.yellow),
-              const SizedBox(width: AppStroke.regular),
-              Expanded(
-                child: Text(
-                  'Neo Labs Studio',
-                  overflow: TextOverflow.ellipsis,
-                  style: _head(
-                    10,
-                    color: const Color(0xFFD4D4D4),
-                    weight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '數位 UI 展示平台行動端介面',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: _head(12, color: _C.white, height: 1.2),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '30+ 頁面 Figma 原型系統，極速反饋。',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: _head(
-              10,
-              color: _C.grey400,
-              weight: FontWeight.w500,
-              height: 1.3,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.only(top: 8),
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Color(0xFF262626), width: AppStroke.thin),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '議價預算',
-                      style: _head(
-                        8,
-                        color: _C.grey400,
-                        weight: FontWeight.w700,
-                        height: 1,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'NT\$ 65,000',
-                      style: _head(12, color: _C.yellow, height: 1),
-                    ),
-                  ],
-                ),
-                _ActionButton(
-                  label: '應徵',
-                  icon: Icons.send,
-                  background: _C.yellow,
-                  foreground: _C.ink,
-                  shadowColor: _C.red,
-                  verticalPadding: 4,
-                  expand: false,
-                  onTap: onTap,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ------------------------------------------------------------
-// 跨欄焦點卡片 D
-// ------------------------------------------------------------
-class _FeaturedCard extends StatelessWidget {
-  const _FeaturedCard({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return _Tap(
-      onTap: onTap,
-      child: _NeoBox(
-        color: _C.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // 標題條
-            Container(
-              color: _C.ink,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Row(
-                      children: [
-                        const _Tag(
-                          'FEATURED 跨欄焦點',
-                          background: _C.yellow,
-                          foreground: _C.ink,
-                          size: 9,
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            '#SPATIAL-WAYFINDING',
-                            overflow: TextOverflow.ellipsis,
-                            style: _head(
-                              10,
-                              color: const Color(0xFFD4D4D4),
-                              weight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
+                  // 專案名稱：圖片下方較醒目的文字
                   Text(
-                    '熱門推薦',
-                    style: _head(10, color: _C.red, weight: FontWeight.w700),
+                    projectName,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: _head(14, height: 1.2),
+                  ),
+                  const SizedBox(height: 10),
+                  _ActionButton(
+                    label: '發送詢問',
+                    icon: Icons.send,
+                    background: _C.red,
+                    foreground: _C.white,
+                    onTap: onTap,
                   ),
                 ],
-              ),
-            ),
-            _PosterImage(
-              url: _posterUrl,
-              height: 144,
-              overlay: const Positioned(
-                left: 8,
-                top: 8,
-                child: _Tag(
-                  '空間導視 // EXHIBITION',
-                  background: _C.ink,
-                  foreground: _C.yellow,
-                  size: 9,
-                  borderColor: _C.ink,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          '發案方：KRONOS ARCHITECTURE',
-                          overflow: TextOverflow.ellipsis,
-                          style: _head(
-                            10,
-                            color: _C.grey500,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '剩餘 4 天截止',
-                        style: _head(
-                          10,
-                          color: _C.grey500,
-                          weight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '新粗獷主義展覽空間導視與立體標籤系統',
-                    style: _head(16, height: 1.2),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '結合冷軋鋼板、絲網印刷與幾何路徑規劃，為當代藝術雙年展量身建構空間指引系統手冊。',
-                    style: _head(
-                      12,
-                      color: _C.grey700,
-                      weight: FontWeight.w500,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
-                    children: [
-                      _Tag(
-                        '#空間指標',
-                        background: AppTheme.background,
-                        foreground: _C.ink,
-                        size: 9,
-                        borderColor: _C.ink,
-                      ),
-                      _Tag(
-                        '#材質打樣',
-                        background: AppTheme.background,
-                        foreground: _C.ink,
-                        size: 9,
-                        borderColor: _C.ink,
-                      ),
-                      _Tag(
-                        '#雙年展',
-                        background: AppTheme.background,
-                        foreground: _C.ink,
-                        size: 9,
-                        borderColor: _C.ink,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            // 底部：預算（黃）+ 投遞提案（紅）
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: _C.ink, width: AppStroke.regular)),
-              ),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      width: 130,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: _C.yellow,
-                        border: Border(
-                          right: BorderSide(color: _C.ink, width: AppStroke.regular),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '專案預算',
-                            style: _head(8, letterSpacing: 0.8, height: 1),
-                          ),
-                          const SizedBox(height: 2),
-                          Text('NT\$ 150,000', style: _head(14, height: 1)),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: _C.red,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '投遞提案',
-                              style: _head(12, color: _C.white),
-                            ),
-                            const SizedBox(width: 6),
-                            const Icon(
-                              Icons.arrow_forward,
-                              size: 16,
-                              color: _C.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
