@@ -54,7 +54,7 @@ class ContractQuoteScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SpacedText(
             ContractQuoteText.title,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -66,7 +66,7 @@ class ContractQuoteScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12),
-          Text(
+          SpacedText(
             ContractQuoteText.description,
             style: TextStyle(
               fontFamily: 'Inter',
@@ -86,7 +86,7 @@ class ContractQuoteScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const SpacedText(
             ContractQuoteText.statusLabel,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -95,7 +95,7 @@ class ContractQuoteScreen extends StatelessWidget {
               letterSpacing: 0,
             ),
           ),
-          const Text(
+          const SpacedText(
             ContractQuoteText.statusValue,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -113,7 +113,7 @@ class ContractQuoteScreen extends StatelessWidget {
                 top: BorderSide(color: AppTheme.primary, width: 1.5),
               ),
             ),
-            child: const Text(
+            child: const SpacedText(
               ContractQuoteText.date,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -165,7 +165,7 @@ class ContractQuoteScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Text(
+                  child: SpacedText(
                     ContractQuoteText.total,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -179,7 +179,7 @@ class ContractQuoteScreen extends StatelessWidget {
                 SizedBox(width: 12),
                 // Flexible + 靠右：金額過長或字體放大時會換行而不是溢出
                 Flexible(
-                  child: Text(
+                  child: SpacedText(
                     '\$ 14,700',
                     textAlign: TextAlign.end,
                     style: TextStyle(
@@ -212,7 +212,7 @@ class ContractQuoteScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                const SpacedText(
                   ContractQuoteText.signature,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -231,7 +231,7 @@ class ContractQuoteScreen extends StatelessWidget {
                       bottom: BorderSide(color: AppTheme.primary, width: 1.5),
                     ),
                   ),
-                  child: Text(
+                  child: SpacedText(
                     ContractQuoteText.signatureHint,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -244,7 +244,7 @@ class ContractQuoteScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 // 同意聲明由 10 提高到 12，手機上較容易閱讀
-                const Text(
+                const SpacedText(
                   ContractQuoteText.consent,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -296,7 +296,7 @@ class ContractQuoteScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              SpacedText(
                 title,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -306,7 +306,7 @@ class ContractQuoteScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
+              SpacedText(
                 description,
                 style: const TextStyle(
                   fontFamily: 'Inter',
@@ -331,7 +331,7 @@ class ContractQuoteScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Text(
+            child: SpacedText(
               phase,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -344,7 +344,7 @@ class ContractQuoteScreen extends StatelessWidget {
           const SizedBox(width: 12),
           // 金額改用 Flexible：標題與金額都過長時不會擠出畫面
           Flexible(
-            child: Text(
+            child: SpacedText(
               amount,
               textAlign: TextAlign.end,
               style: const TextStyle(
@@ -406,7 +406,7 @@ class _CardTitle extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppTheme.primary, width: 1.5)),
       ),
-      child: Text(
+      child: SpacedText(
         text,
         style: const TextStyle(
           fontFamily: 'Space Grotesk',
@@ -458,7 +458,7 @@ class _ActionButton extends StatelessWidget {
                     ),
                   )
                 : null,
-            child: Text(
+            child: SpacedText(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(

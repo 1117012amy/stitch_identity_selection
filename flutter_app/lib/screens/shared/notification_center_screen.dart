@@ -42,7 +42,7 @@ class NotificationCenterScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      const SpacedText(
                         NotificationText.title,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -62,12 +62,18 @@ class NotificationCenterScreen extends StatelessWidget {
                             color: AppTheme.primary,
                           ),
                           children: [
-                            TextSpan(text: NotificationText.summaryPrefix),
+                            TextSpan(
+                              text: NotificationText.summaryPrefix,
+                              style: TextStyle(letterSpacing: kSmallChineseLetterSpacing),
+                            ),
                             TextSpan(
                               text: NotificationText.summaryCount,
                               style: TextStyle(color: AppTheme.accentRed),
                             ),
-                            TextSpan(text: NotificationText.summarySuffix),
+                            TextSpan(
+                              text: NotificationText.summarySuffix,
+                              style: TextStyle(letterSpacing: kSmallChineseLetterSpacing),
+                            ),
                           ],
                         ),
                       ),
@@ -81,7 +87,7 @@ class NotificationCenterScreen extends StatelessWidget {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    child: const Text(
+                    child: const SpacedText(
                       NotificationText.markAllRead,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -213,7 +219,7 @@ class NotificationCenterScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         alignment: Alignment.center,
-        child: Text(
+        child: SpacedText(
           title,
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -286,7 +292,7 @@ class NotificationCenterScreen extends StatelessWidget {
                               horizontal: 6,
                               vertical: 2,
                             ),
-                            child: Text(
+                            child: SpacedText(
                               badgeText,
                               style: const TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -298,7 +304,7 @@ class NotificationCenterScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 6),
-                          Text(
+                          SpacedText(
                             time,
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -311,7 +317,7 @@ class NotificationCenterScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                      SpacedText(
                         title,
                         style: const TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -322,7 +328,7 @@ class NotificationCenterScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 2),
-                      Text(
+                      SpacedText(
                         subtitle,
                         style: const TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -349,7 +355,7 @@ class NotificationCenterScreen extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: SpacedText(
                           actionText,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -401,7 +407,7 @@ class NotificationCenterScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          SpacedText(
             label,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -411,7 +417,7 @@ class NotificationCenterScreen extends StatelessWidget {
               letterSpacing: 0,
             ),
           ),
-          Text(
+          SpacedText(
             value,
             style: TextStyle(
               fontFamily: 'Space Grotesk',

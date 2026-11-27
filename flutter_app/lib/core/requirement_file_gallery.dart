@@ -64,7 +64,7 @@ class RequirementThumb extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
+                    child: SpacedText(
                       file.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -93,7 +93,7 @@ class RequirementThumb extends StatelessWidget {
                 constraints: const BoxConstraints(minWidth: 18),
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                 color: const Color(0xFF0055FF),
-                child: Text(
+                child: SpacedText(
                   '$order',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
@@ -196,7 +196,7 @@ class _RequirementViewerState extends State<_RequirementViewer> {
                       vertical: 3,
                     ),
                     color: const Color(0xFF0055FF), // 藍色：與 project 頁的藍色相同
-                    child: Text(
+                    child: SpacedText(
                       '${_index + 1} / $total',
                       style: const TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -208,7 +208,7 @@ class _RequirementViewerState extends State<_RequirementViewer> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
+                    child: SpacedText(
                       file.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -248,7 +248,7 @@ class _RequirementViewerState extends State<_RequirementViewer> {
                                 color: AppTheme.accentRed,
                               ),
                               const SizedBox(height: 12),
-                              Text(
+                              SpacedText(
                                 f.name,
                                 style: const TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -258,7 +258,7 @@ class _RequirementViewerState extends State<_RequirementViewer> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Text(
+                              SpacedText(
                                 f.sizeText,
                                 style: const TextStyle(
                                   fontFamily: 'Space Grotesk',

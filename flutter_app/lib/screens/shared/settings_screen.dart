@@ -29,7 +29,7 @@ class SettingsScreen extends StatelessWidget {
             onPressed: () => Navigator.maybePop(context),
           ),
         ),
-        title: const Text(
+        title: const SpacedText(
           SettingsText.title,
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -322,7 +322,7 @@ class _ProfileCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpace.regularPlus),
-          const Text(
+          const SpacedText(
             SettingsText.profileName,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -334,7 +334,7 @@ class _ProfileCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpace.base),
-          const Text(
+          const SpacedText(
             SettingsText.email,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -421,7 +421,7 @@ class _SettingsSection extends StatelessWidget {
           children: [
             Container(width: 10, height: 28, color: color),
             const SizedBox(width: AppSpace.compact),
-            Text(
+            SpacedText(
               title,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -468,7 +468,7 @@ class _ActionRow extends StatelessWidget {
             const SizedBox(width: AppSpace.cardGap),
           ],
           Expanded(
-            child: Text(
+            child: SpacedText(
               label,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -507,7 +507,7 @@ class _ValueRow extends StatelessWidget {
           Icon(icon, color: AppTheme.primary, size: 18),
           const SizedBox(width: AppSpace.cardGap),
           Expanded(
-            child: Text(
+            child: SpacedText(
               label,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -517,7 +517,7 @@ class _ValueRow extends StatelessWidget {
               ),
             ),
           ),
-          Text(
+          SpacedText(
             value,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -581,7 +581,7 @@ class _ToggleRowState extends State<_ToggleRow> {
               Icon(widget.icon, size: 18, color: AppTheme.primary),
               const SizedBox(width: AppSpace.cardGap),
               Expanded(
-                child: Text(
+                child: SpacedText(
                   widget.label,
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -679,7 +679,7 @@ class _LogoutButton extends StatelessWidget {
       ),
       height: 72,
       alignment: Alignment.center,
-      child: const Text(
+      child: const SpacedText(
         SettingsText.logout,
         style: TextStyle(
           color: AppTheme.paper,

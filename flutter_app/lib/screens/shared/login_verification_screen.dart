@@ -18,7 +18,7 @@ class LoginVerificationScreen extends StatefulWidget {
 }
 
 class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordController = SpacedTextEditingController();
   int _passwordLength = 0;
   bool _isPasswordVisible = false;
 
@@ -81,7 +81,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const Text(
+                              const SpacedText(
                                 LoginText.title,
                                 style: TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -92,7 +92,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
                                 ),
                               ),
                               const SizedBox(height: AppSpace.md),
-                              Text(
+                              SpacedText(
                                 LoginText.subtitle,
                                 style: TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -217,11 +217,12 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
                                 ),
                               ),
                               const SizedBox(height: AppSpace.regular),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                spacing: 12,
+                                runSpacing: 6,
                                 children: [
-                                  const Text(
+                                  const SpacedText(
                                     LoginText.forgotPassword,
                                     style: TextStyle(
                                       fontFamily: 'Space Grotesk',
@@ -242,11 +243,15 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
                                         letterSpacing: AppTracking.none,
                                       ),
                                       children: [
-                                        TextSpan(text: LoginText.newUser),
+                                        TextSpan(
+                                          text: LoginText.newUser,
+                                          style: TextStyle(letterSpacing: kSmallChineseLetterSpacing),
+                                        ),
                                         TextSpan(
                                           text: LoginText.requestAccess,
                                           style: TextStyle(
                                             color: AppTheme.accentBlue,
+                                            letterSpacing: kSmallChineseLetterSpacing,
                                           ),
                                         ),
                                       ],
@@ -310,7 +315,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
           ),
           const SizedBox(width: 10),
           const Expanded(
-            child: Text(
+            child: SpacedText(
               LoginText.systemStatus,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -359,7 +364,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
           if (index < 3) const SizedBox(width: 4),
         ],
         const SizedBox(width: 8),
-        Text(
+        SpacedText(
           strengthText,
           style: const TextStyle(
             fontFamily: 'Space Grotesk',
@@ -381,7 +386,7 @@ class _FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return SpacedText(
       text,
       style: const TextStyle(
         fontFamily: 'Space Grotesk',
@@ -432,13 +437,12 @@ class _NeoLoginField extends StatelessWidget {
         ),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(
+          hintStyle: TextStyle(letterSpacing: containsNonEnglish(hintText ?? '') ? kSmallChineseLetterSpacing : AppTracking.none,
             color: AppTheme.primary.withValues(alpha: 0.28),
             fontFamily: 'Space Grotesk',
             fontSize: AppTypeScale.caption,
             fontWeight: FontWeight.w700,
             height: AppLineHeight.snug,
-            letterSpacing: AppTracking.none,
           ),
           suffixIcon: suffixIcon == null
               ? null
@@ -495,7 +499,7 @@ class _LoginActionButton extends StatelessWidget {
                 ]
               : null,
         ),
-        child: Text(
+        child: SpacedText(
           label,
           style: TextStyle(
             fontFamily: 'Space Grotesk',

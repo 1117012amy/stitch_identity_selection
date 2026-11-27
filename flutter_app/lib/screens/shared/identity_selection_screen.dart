@@ -97,7 +97,7 @@ class IdentitySelectionScreen extends StatelessWidget {
             child: Icon(icon, color: iconColor, size: 38),
           ),
           const SizedBox(height: 15),
-          Text(
+          SpacedText(
             title,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -115,7 +115,7 @@ class IdentitySelectionScreen extends StatelessWidget {
               ),
             ),
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
+            child: SpacedText(
               description,
               style: const TextStyle(
                 fontSize: 14,
@@ -129,7 +129,7 @@ class IdentitySelectionScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              SpacedText(
                 actionText,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',

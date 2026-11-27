@@ -20,7 +20,7 @@ class AdminDashboardScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  const SpacedText(
                     AdminText.title,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -41,7 +41,7 @@ class AdminDashboardScreen extends StatelessWidget {
                       ),
                     ),
                     padding: const EdgeInsets.only(left: 12, top: 3, bottom: 3),
-                    child: const Text(
+                    child: const SpacedText(
                       AdminText.subtitle,
                       style: TextStyle(
                         fontFamily: 'Inter',
@@ -66,7 +66,7 @@ class AdminDashboardScreen extends StatelessWidget {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
+                    child: const SpacedText(
                       AdminText.exportReport,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -103,7 +103,7 @@ class AdminDashboardScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  const SpacedText(
                     AdminText.verificationTitle,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -152,7 +152,7 @@ class AdminDashboardScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          Text(
+                          SpacedText(
                             AdminText.verificationName,
                             style: TextStyle(
                               color: Colors.white,
@@ -161,7 +161,7 @@ class AdminDashboardScreen extends StatelessWidget {
                               fontSize: 11,
                             ),
                           ),
-                          Text(
+                          SpacedText(
                             AdminText.verificationLocation,
                             style: TextStyle(
                               color: Colors.white,
@@ -202,7 +202,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 48),
-              const Text(
+              const SpacedText(
                 AdminText.disputeTitle,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -237,7 +237,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    const SpacedText(
                       AdminText.systemHealth,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -258,7 +258,7 @@ class AdminDashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Text(
+                        const SpacedText(
                           AdminText.systemOnline,
                           style: TextStyle(
                             fontFamily: 'Inter',
@@ -318,7 +318,7 @@ class AdminDashboardScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SpacedText(
                 title,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -335,7 +335,7 @@ class AdminDashboardScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
+              SpacedText(
                 mainValue,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -346,7 +346,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              Text(
+              SpacedText(
                 subValue,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -380,7 +380,7 @@ class AdminDashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SpacedText(
             title,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -389,7 +389,7 @@ class AdminDashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          SpacedText(
             mainValue,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -409,7 +409,7 @@ class AdminDashboardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                const SpacedText(
                   AdminText.revenueTarget,
                   style: TextStyle(
                     fontFamily: 'Inter',
@@ -452,7 +452,7 @@ class AdminDashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SpacedText(
             title,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -462,7 +462,7 @@ class AdminDashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          SpacedText(
             mainValue,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -478,7 +478,7 @@ class AdminDashboardScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             color: Colors.white,
             alignment: Alignment.center,
-            child: const Text(
+            child: const SpacedText(
               AdminText.viewDetails,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -513,14 +513,14 @@ class AdminDashboardScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  SpacedText(
                     name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                     ),
                   ),
-                  Text(
+                  SpacedText(
                     location,
                     style: const TextStyle(
                       fontSize: 9,
@@ -585,7 +585,7 @@ class AdminDashboardScreen extends StatelessWidget {
                   color: AppTheme.accentRed,
                   border: Border.all(color: AppTheme.primary, width: 1.0),
                 ),
-                child: const Text(
+                child: const SpacedText(
                   AdminText.highPriority,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -607,7 +607,7 @@ class AdminDashboardScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        SpacedText(
                           '${AdminText.disputeIdPrefix} $id',
                           style: const TextStyle(
                             fontFamily: 'Inter',
@@ -617,7 +617,7 @@ class AdminDashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 3),
-                        Text(
+                        SpacedText(
                           title,
                           style: const TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -628,7 +628,7 @@ class AdminDashboardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
+                  SpacedText(
                     amount,
                     style: const TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -639,7 +639,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(
+              SpacedText(
                 desc,
                 style: const TextStyle(
                   fontFamily: 'Inter',
@@ -655,7 +655,7 @@ class AdminDashboardScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 9),
                       color: AppTheme.primary,
                       alignment: Alignment.center,
-                      child: const Text(
+                      child: const SpacedText(
                         AdminText.handle,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -692,7 +692,7 @@ class AdminDashboardScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SpacedText(
             label,
             style: const TextStyle(
               fontFamily: 'Inter',
@@ -701,7 +701,7 @@ class AdminDashboardScreen extends StatelessWidget {
               color: Colors.white70,
             ),
           ),
-          Text(
+          SpacedText(
             value,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',

@@ -50,7 +50,7 @@ class MessageInboxScreen extends StatelessWidget {
                                 hintText: AppTheme.isDesigner
                                     ? MessageText.designerSearchHint
                                     : MessageText.customerSearchHint,
-                                hintStyle: const TextStyle(
+                                hintStyle: const TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                                   fontFamily: 'Space Grotesk',
                                   fontSize: 12,
                                 ),
@@ -228,7 +228,7 @@ class MessageInboxScreen extends StatelessWidget {
                         border: Border.all(color: AppTheme.primary, width: 1.0),
                       ),
                       alignment: Alignment.center,
-                      child: Text(
+                      child: SpacedText(
                         '$unreadCount',
                         style: const TextStyle(
                           fontWeight: FontWeight.w900,
@@ -249,7 +249,7 @@ class MessageInboxScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Text(
+                        child: SpacedText(
                           name,
                           style: const TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -261,7 +261,7 @@ class MessageInboxScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
+                      SpacedText(
                         time,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -276,7 +276,7 @@ class MessageInboxScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  Text(
+                  SpacedText(
                     subject,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -286,7 +286,7 @@ class MessageInboxScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
+                  SpacedText(
                     message,
                     style: TextStyle(
                       fontSize: 11,
@@ -357,7 +357,7 @@ class MessageInboxScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Expanded(
-                        child: Text(
+                        child: SpacedText(
                           MessageText.systemName,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -369,7 +369,7 @@ class MessageInboxScreen extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
+                      SpacedText(
                         MessageText.systemTime,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -382,7 +382,7 @@ class MessageInboxScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  const Text(
+                  const SpacedText(
                     MessageText.systemSubject,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -391,7 +391,7 @@ class MessageInboxScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
+                  SpacedText(
                     MessageText.systemMessage,
                     style: TextStyle(
                       fontSize: 11,

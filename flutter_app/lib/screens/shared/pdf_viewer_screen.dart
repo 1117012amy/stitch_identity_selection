@@ -1,3 +1,4 @@
+import '../../core/spaced_text.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:pdfrx/pdfrx.dart';
@@ -21,7 +22,7 @@ class PdfViewerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text(
+        title: SpacedText(
           fileName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

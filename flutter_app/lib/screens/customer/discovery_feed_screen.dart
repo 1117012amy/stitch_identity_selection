@@ -83,7 +83,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text(
+                    const SpacedText(
                       DiscoveryText.sectionTitle,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -101,7 +101,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
+                    const SpacedText(
                       DiscoveryText.itemCount,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -187,7 +187,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
       depth: 3.0,
       borderWidth: 1.5,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
-      child: Text(
+      child: SpacedText(
         text,
         style: TextStyle(
           fontFamily: 'Space Grotesk',
@@ -237,7 +237,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 color: accent,
-                child: Text(
+                child: SpacedText(
                   tag,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -259,7 +259,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(
+                    child: SpacedText(
                       label,
                       style: const TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -342,7 +342,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
                       vertical: 2,
                     ),
                     color: tile.accent,
-                    child: Text(
+                    child: SpacedText(
                       tag,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -366,7 +366,7 @@ class DiscoveryFeedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(
+                    child: SpacedText(
                       label,
                       style: const TextStyle(
                         fontFamily: 'Space Grotesk',

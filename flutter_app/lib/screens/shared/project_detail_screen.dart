@@ -11,7 +11,7 @@ class ProjectDetailScreen extends StatefulWidget {
 }
 
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
-  final TextEditingController _commentController = TextEditingController();
+  final TextEditingController _commentController = SpacedTextEditingController();
   final List<String> _comments = [];
   bool _initialized = false;
   int _likeCount = 0;
@@ -137,7 +137,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              SpacedText(
                 projectName,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -148,7 +148,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
+              SpacedText(
                 authorName,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -250,7 +250,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Text(
+                child: SpacedText(
                   projectName,
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -291,7 +291,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             ],
           ),
           const SizedBox(height: 2),
-          Text(
+          SpacedText(
             ProjectDetailText.date,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -312,7 +312,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           ],
           if (conceptText.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(
+            SpacedText(
               conceptText,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -340,7 +340,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             const SizedBox(
               height: 26,
               child: Center(
-                child: Text(
+                child: SpacedText(
                   ProjectDetailText.noComments,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -352,7 +352,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               ),
             )
           else ...[
-            const Text(
+            const SpacedText(
               ProjectDetailText.comments,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -380,7 +380,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     ),
                   ],
                 ),
-                child: const Text(
+                child: const SpacedText(
                   ProjectDetailText.moreComments,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -419,7 +419,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         border: Border(left: BorderSide(color: color, width: 2.25)),
       ),
       padding: const EdgeInsets.only(left: 8),
-      child: Text(
+      child: SpacedText(
         text,
         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
       ),
@@ -456,7 +456,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
                   hintText: ProjectDetailText.commentHint,
-                  hintStyle: TextStyle(
+                  hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                     fontFamily: 'Space Grotesk',
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -493,7 +493,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const SpacedText(
             ProjectDetailText.authorTitle,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -521,7 +521,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                 ),
               ),
               const SizedBox(width: 10),
-              Text(
+              SpacedText(
                 authorName,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -561,7 +561,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           BoxShadow(color: AppTheme.primary, offset: AppTheme.hardShadowOffset),
         ],
       ),
-      child: Text(
+      child: SpacedText(
         text,
         style: const TextStyle(
           fontFamily: 'Space Grotesk',
@@ -691,7 +691,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
             children: [
               Icon(icon, color: iconColor, size: 18),
               const SizedBox(width: 10),
-              Text(
+              SpacedText(
                 label,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -701,7 +701,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
               ),
             ],
           ),
-          Text(
+          SpacedText(
             value,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',

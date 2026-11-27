@@ -38,7 +38,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: SearchCategoriesText.searchHint,
-                              hintStyle: TextStyle(
+                              hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                                 fontFamily: 'Space Grotesk',
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13,
@@ -72,7 +72,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           elevation: 0,
                         ),
-                        child: const Text(
+                        child: const SpacedText(
                           SearchCategoriesText.search,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -89,7 +89,7 @@ class SearchCategoriesScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  const SpacedText(
                     SearchCategoriesText.categoryTitle,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -167,7 +167,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                 children: const [
                   Icon(Icons.grid_view, size: 20),
                   SizedBox(width: 8),
-                  Text(
+                  SpacedText(
                     SearchCategoriesText.recentProjects,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -230,7 +230,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              const SpacedText(
                                 SearchCategoriesText.projectTag,
                                 style: TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -240,7 +240,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 2),
-                              const Text(
+                              const SpacedText(
                                 SearchCategoriesText.modelProject,
                                 style: TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -331,7 +331,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SpacedText(
                         title,
                         style: const TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -339,7 +339,7 @@ class SearchCategoriesScreen extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
-                      Text(
+                      SpacedText(
                         subtitle,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
@@ -380,7 +380,7 @@ class SearchCategoriesScreen extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           if (tag.isNotEmpty) ...[
-            Text(
+            SpacedText(
               tag,
               style: const TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -395,7 +395,7 @@ class SearchCategoriesScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
+                child: SpacedText(
                   title,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',

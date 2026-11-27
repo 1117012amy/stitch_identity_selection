@@ -21,8 +21,8 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
   final List<String> styles = List<String>.from(NewWorkText.styles);
   final List<String> selectedStyles = [];
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _conceptController = TextEditingController();
+  final TextEditingController _nameController = SpacedTextEditingController();
+  final TextEditingController _conceptController = SpacedTextEditingController();
 
   bool _isUploaded = false;
   bool _isAnalyzing = false;
@@ -177,7 +177,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             ),
           ],
         ),
-        child: Text(
+        child: SpacedText(
           text,
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -204,7 +204,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             borderRadius: BorderRadius.zero,
             side: const BorderSide(color: AppTheme.primary, width: 1.5),
           ),
-          title: const Text(
+          title: const SpacedText(
             NewWorkText.dialogTitle,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -222,6 +222,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             ),
             decoration: const InputDecoration(
               hintText: NewWorkText.dialogHint,
+              hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: AppTheme.primary, width: 1.5),
                 borderRadius: BorderRadius.zero,
@@ -239,7 +240,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text(
+              child: const SpacedText(
                 NewWorkText.cancel,
                 style: TextStyle(
                   color: Colors.grey,
@@ -264,7 +265,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: const Text(
+                child: const SpacedText(
                   NewWorkText.confirm,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -302,7 +303,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
           children: [
             Icon(Icons.add, size: 14, color: AppTheme.primary),
             SizedBox(width: 4),
-            Text(
+            SpacedText(
               NewWorkText.add,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -339,7 +340,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        title: const Text(
+        title: const SpacedText(
           NewWorkText.appBarTitle,
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -364,7 +365,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
+            const SpacedText(
               NewWorkText.nameLabel,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -384,7 +385,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                 ),
                 decoration: const InputDecoration(
                   hintText: NewWorkText.nameHint,
-                  hintStyle: TextStyle(
+                  hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                     color: Colors.grey,
                     fontWeight: FontWeight.normal,
                     fontSize: 13,
@@ -399,7 +400,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             ),
             const SizedBox(height: 24),
 
-            const Text(
+            const SpacedText(
               NewWorkText.fieldLabel,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -452,7 +453,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 16),
-                                Text(
+                                SpacedText(
                                   NewWorkText.uploadAnalyzing,
                                   style: TextStyle(
                                     fontFamily: 'Space Grotesk',
@@ -489,7 +490,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                                         vertical: 6,
                                       ),
                                       color: AppTheme.primary,
-                                      child: const Text(
+                                      child: const SpacedText(
                                         NewWorkText.uploadDone,
                                         style: TextStyle(
                                           fontFamily: 'Space Grotesk',
@@ -500,7 +501,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    Text(
+                                    SpacedText(
                                       '${NewWorkText.uploadedCountPrefix}${_uploadedImages.length}${NewWorkText.uploadedCountSuffix}',
                                       style: const TextStyle(
                                         fontFamily: 'Space Grotesk',
@@ -522,7 +523,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                                   color: AppTheme.primary,
                                 ),
                                 SizedBox(height: 12),
-                                Text(
+                                SpacedText(
                                   NewWorkText.uploadHint,
                                   style: TextStyle(
                                     fontFamily: 'Space Grotesk',
@@ -541,7 +542,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
             const SizedBox(height: 24),
 
             if (_isUploaded) ...[
-              const Text(
+              const SpacedText(
                 NewWorkText.styleLabel,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -561,7 +562,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
               const SizedBox(height: 24),
             ],
 
-            const Text(
+            const SpacedText(
               NewWorkText.conceptLabel,
               style: TextStyle(
                 fontFamily: 'Space Grotesk',
@@ -583,7 +584,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                 ),
                 decoration: const InputDecoration(
                   hintText: NewWorkText.conceptHint,
-                  hintStyle: TextStyle(
+                  hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                     color: Colors.grey,
                     fontWeight: FontWeight.normal,
                     fontSize: 13,
@@ -624,7 +625,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
               child: Container(
                 height: 48,
                 alignment: Alignment.center,
-                child: const Text(
+                child: const SpacedText(
                   NewWorkText.saveProject,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -641,7 +642,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
               children: [
                 GestureDetector(
                   onTap: () {},
-                  child: const Text(
+                  child: const SpacedText(
                     NewWorkText.saveDraft,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -662,7 +663,7 @@ class _NewWorkScreenState extends State<NewWorkScreen> {
                       closeMode: 'preview',
                     ),
                   ),
-                  child: const Text(
+                  child: const SpacedText(
                     NewWorkText.preview,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',

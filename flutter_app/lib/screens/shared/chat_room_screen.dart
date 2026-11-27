@@ -1,4 +1,4 @@
-﻿import 'dart:typed_data';
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -50,7 +50,7 @@ class ChatMessageItem {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
-  final TextEditingController _messageController = TextEditingController();
+  final TextEditingController _messageController = SpacedTextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   late List<ChatMessageItem> _messages;
@@ -162,7 +162,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  const SpacedText(
                     '從本機上傳檔案 (REAL FILE UPLOAD)',
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -228,7 +228,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             Icon(icon, color: textColor, size: 20),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
+              child: SpacedText(
                 title,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -372,7 +372,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  const SpacedText(
                     '選擇表情符號 (EMOJIS)',
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -416,7 +416,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           ),
                         ],
                       ),
-                      child: Text(emoji, style: const TextStyle(fontSize: 18)),
+                      child: SpacedText(emoji, style: const TextStyle(fontSize: 18)),
                     ),
                   );
                 },
@@ -459,7 +459,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       ),
                     ],
                   ),
-                  child: Text(emoji, style: const TextStyle(fontSize: 16)),
+                  child: SpacedText(emoji, style: const TextStyle(fontSize: 16)),
                 ),
               ),
             );
@@ -627,7 +627,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SpacedText(
                         widget.contactName.toUpperCase(),
                         style: const TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -638,7 +638,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         ),
                       ),
                       const SizedBox(height: 1),
-                      Text(
+                      SpacedText(
                         widget.contactStatus.toUpperCase(),
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -706,7 +706,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             color: AppTheme.primary,
             border: Border.all(color: AppTheme.primary, width: 1.5),
           ),
-          child: Text(
+          child: SpacedText(
             text,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -768,7 +768,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: _messageBubbleDecoration(bubbleColor),
-                child: Text(
+                child: SpacedText(
                   message,
                   style: TextStyle(
                     fontFamily: 'Inter',
@@ -786,7 +786,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         const SizedBox(height: 6),
         Padding(
           padding: const EdgeInsets.only(left: 4),
-          child: Text(
+          child: SpacedText(
             time,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -817,7 +817,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: _messageBubbleDecoration(bubbleColor),
-                child: Text(
+                child: SpacedText(
                   message,
                   style: TextStyle(
                     fontFamily: 'Inter',
@@ -838,7 +838,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              SpacedText(
                 time,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -869,7 +869,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     if (bytes == null || !isPdf) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(bytes == null ? '此檔案沒有可預覽的內容' : '目前僅支援預覽 PDF 檔案'),
+          content: SpacedText(bytes == null ? '此檔案沒有可預覽的內容' : '目前僅支援預覽 PDF 檔案'),
         ),
       );
       return;
@@ -927,7 +927,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            SpacedText(
                               fileName,
                               style: const TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -938,7 +938,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
-                            Text(
+                            SpacedText(
                               fileSize,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -962,7 +962,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             width: 1.0,
                           ),
                         ),
-                        child: const Text(
+                        child: const SpacedText(
                           'PDF',
                           style: TextStyle(
                             color: Colors.white,
@@ -981,7 +981,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         const SizedBox(height: 6),
         Padding(
           padding: EdgeInsets.only(left: isUser ? 0 : 4, right: isUser ? 4 : 0),
-          child: Text(
+          child: SpacedText(
             time,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -1057,7 +1057,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     const SizedBox(height: 6),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
+                      child: SpacedText(
                         fileName,
                         style: const TextStyle(
                           fontFamily: 'Inter',
@@ -1077,7 +1077,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         const SizedBox(height: 6),
         Padding(
           padding: EdgeInsets.only(left: isUser ? 0 : 4, right: isUser ? 4 : 0),
-          child: Text(
+          child: SpacedText(
             time,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -1128,7 +1128,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           top: BorderSide(color: AppTheme.primary, width: 1.5),
                         ),
                       ),
-                      child: Text(
+                      child: SpacedText(
                         message,
                         style: const TextStyle(
                           fontFamily: 'Inter',
@@ -1148,7 +1148,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         const SizedBox(height: 6),
         Padding(
           padding: const EdgeInsets.only(left: 4),
-          child: Text(
+          child: SpacedText(
             time,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -1180,7 +1180,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   vertical: 12,
                 ),
                 decoration: _messageBubbleDecoration(AppTheme.accentBlue),
-                child: Text(
+                child: SpacedText(
                   message,
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -1196,7 +1196,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         const SizedBox(height: 6),
         Padding(
           padding: const EdgeInsets.only(right: 4),
-          child: Text(
+          child: SpacedText(
             time,
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -1232,7 +1232,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           child: const _BouncingWhiteSquares(),
         ),
         const SizedBox(width: 10),
-        const Text(
+        const SpacedText(
           '輸入中',
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -1303,11 +1303,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       minLines: 1,
                       decoration: InputDecoration(
                         hintText: ChatText.inputHint,
-                        hintStyle: TextStyle(
+                        hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                           fontFamily: 'Space Grotesk',
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
-                          letterSpacing: 0.25,
                           color: AppTheme.primary.withValues(alpha: 0.4),
                         ),
                         border: InputBorder.none,

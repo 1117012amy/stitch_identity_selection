@@ -16,7 +16,7 @@ class ReviewRatingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              SpacedText(
                 ReviewText.title,
                 style: AppTheme.textStyle(
                   size: AppTypeScale.title,
@@ -44,7 +44,7 @@ class ReviewRatingScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
+                    SpacedText(
                       ReviewText.description,
                       style: AppTheme.textStyle(
                         size: AppTypeScale.body,
@@ -63,7 +63,7 @@ class ReviewRatingScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       decoration: AppTheme.neoFrame(color: AppTheme.paper),
                       alignment: Alignment.topLeft,
-                      child: Text(
+                      child: SpacedText(
                         ReviewText.inputHint,
                         style: AppTheme.textStyle(
                           size: AppTypeScale.caption,
@@ -84,7 +84,7 @@ class ReviewRatingScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Text(
+                      child: SpacedText(
                         ReviewText.submit,
                         style: AppTheme.textStyle(
                           color: AppTheme.paper,
@@ -114,7 +114,7 @@ class _RatingRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(
+          child: SpacedText(
             label,
             style: AppTheme.textStyle(size: AppTypeScale.body),
           ),

@@ -156,7 +156,7 @@ class ViewOrdersScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 6),
-              Text(
+              SpacedText(
                 'CLIENT DOSSIER',
                 style: _head(10, color: _C.white, letterSpacing: 1),
               ),
@@ -164,13 +164,13 @@ class ViewOrdersScreen extends StatelessWidget {
               Container(
                 color: _C.ink,
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                child: Text('VERIFIED', style: _head(9, color: _C.yellow)),
+                child: SpacedText('VERIFIED', style: _head(9, color: _C.yellow)),
               ),
             ],
           ),
           const SizedBox(height: 10),
           // 專案名稱（客戶自己命名）
-          Text(projectName, style: _head(24, color: _C.white, height: 1.1)),
+          SpacedText(projectName, style: _head(24, color: _C.white, height: 1.1)),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -181,12 +181,12 @@ class ViewOrdersScreen extends StatelessWidget {
                   color: _C.ink,
                   border: Border.all(color: _C.white, width: AppStroke.regular),
                 ),
-                child: Text('客戶', style: _head(12, color: _C.white)),
+                child: SpacedText('客戶', style: _head(12, color: _C.white)),
               ),
               const SizedBox(width: 10),
               // 客戶名稱：放在黑色色塊右邊
               Expanded(
-                child: Text(
+                child: SpacedText(
                   clientName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -220,7 +220,7 @@ class ViewOrdersScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   'DIRECT LINE',
                   style: _head(9, color: _C.yellow, letterSpacing: 1),
                 ),
@@ -264,7 +264,7 @@ class ViewOrdersScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Expanded(
-                  child: Text(
+                  child: SpacedText(
                     'COMMISSION BRIEF / 委託需求',
                     style: _head(11, letterSpacing: 0.5),
                   ),
@@ -273,7 +273,7 @@ class ViewOrdersScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Text(brief, style: _head(13, weight: FontWeight.w700, height: 1.5)),
+          SpacedText(brief, style: _head(13, weight: FontWeight.w700, height: 1.5)),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.only(top: 8),
@@ -285,7 +285,7 @@ class ViewOrdersScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                SpacedText(
                   'PROJECT CODE: #2025-BRUTAL',
                   style: _head(8, color: _C.grey500, weight: FontWeight.w700),
                 ),
@@ -328,9 +328,9 @@ class ViewOrdersScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('VISUAL REF / 附件',
+                SpacedText('VISUAL REF / 附件',
                     style: _head(10, color: _C.yellow)),
-                Text('共 ${files.length} 個', style: _head(10, color: _C.white)),
+                SpacedText('共 ${files.length} 個', style: _head(10, color: _C.white)),
               ],
             ),
           ),
@@ -352,7 +352,7 @@ class ViewOrdersScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
-            child: Text(
+            child: SpacedText(
               '編號為上傳順序，點一下可放大查看',
               style: _head(9, color: _C.grey500, weight: FontWeight.w700),
             ),
@@ -379,7 +379,7 @@ class ViewOrdersScreen extends StatelessWidget {
                 children: [
                   const Icon(Icons.description_outlined,
                       size: 22, color: _C.white),
-                  Text('PDF', style: _head(9, color: _C.white)),
+                  SpacedText('PDF', style: _head(9, color: _C.white)),
                 ],
               ),
             ),
@@ -389,14 +389,14 @@ class ViewOrdersScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   'ATTACHED FILE',
                   style: _head(9, color: _C.red, letterSpacing: 1),
                 ),
                 const SizedBox(height: 2),
-                Text(fileName, style: _head(12, height: 1.3)),
+                SpacedText(fileName, style: _head(12, height: 1.3)),
                 if (sizeText != null)
-                  Text(
+                  SpacedText(
                     sizeText,
                     style: _head(9, color: _C.grey500, weight: FontWeight.w700),
                   ),

@@ -35,7 +35,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        const SpacedText(
                           IncomeText.title,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -45,7 +45,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
+                        const SpacedText(
                           '\$42,850.00',
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -67,7 +67,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                                 color: AppTheme.primary,
                                 border: Border.all(color: AppTheme.primary),
                               ),
-                              child: const Text(
+                              child: const SpacedText(
                                 IncomeText.monthBadge,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -87,7 +87,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                                 color: AppTheme.accentBlue,
                                 border: Border.all(color: AppTheme.primary),
                               ),
-                              child: const Text(
+                              child: const SpacedText(
                                 '+12.4% MOM',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -133,7 +133,10 @@ class IncomeDashboardScreen extends StatelessWidget {
                         letterSpacing: 0,
                       ),
                       children: [
-                        TextSpan(text: IncomeText.paidPrefix),
+                        TextSpan(
+                          text: IncomeText.paidPrefix,
+                          style: TextStyle(letterSpacing: kTitleChineseLetterSpacing),
+                        ),
                         TextSpan(
                           text: 'PAID',
                           style: TextStyle(color: AppTheme.accentBlue),
@@ -141,7 +144,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Text(
+                  const SpacedText(
                     IncomeText.paidRange,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -190,7 +193,10 @@ class IncomeDashboardScreen extends StatelessWidget {
                         letterSpacing: 0,
                       ),
                       children: [
-                        TextSpan(text: IncomeText.unpaidPrefix),
+                        TextSpan(
+                          text: IncomeText.unpaidPrefix,
+                          style: TextStyle(letterSpacing: kTitleChineseLetterSpacing),
+                        ),
                         TextSpan(
                           text: 'UNPAID',
                           style: TextStyle(color: AppTheme.accentRed),
@@ -198,7 +204,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Text(
+                  const SpacedText(
                     IncomeText.unpaidRange,
                     style: TextStyle(
                       fontFamily: 'Space Grotesk',
@@ -258,7 +264,7 @@ class IncomeDashboardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   title,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -266,7 +272,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                     letterSpacing: 0,
                   ),
                 ),
-                Text(
+                SpacedText(
                   time,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -282,7 +288,7 @@ class IncomeDashboardScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
+              SpacedText(
                 amount,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -291,7 +297,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                   letterSpacing: 0,
                 ),
               ),
-              const Text(
+              const SpacedText(
                 IncomeText.paidStatus,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -335,7 +341,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    SpacedText(
                       title,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -343,7 +349,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                         letterSpacing: 0,
                       ),
                     ),
-                    Text(
+                    SpacedText(
                       status,
                       style: const TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -356,7 +362,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
+              SpacedText(
                 amount,
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -378,7 +384,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: const SpacedText(
                       IncomeText.urgentAction,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -432,7 +438,7 @@ class IncomeDashboardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   title,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -440,7 +446,7 @@ class IncomeDashboardScreen extends StatelessWidget {
                     letterSpacing: 0,
                   ),
                 ),
-                Text(
+                SpacedText(
                   status,
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -453,7 +459,7 @@ class IncomeDashboardScreen extends StatelessWidget {
               ],
             ),
           ),
-          Text(
+          SpacedText(
             amount,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',

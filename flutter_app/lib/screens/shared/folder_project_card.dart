@@ -44,7 +44,7 @@ class FolderProjectCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   concept,
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -87,7 +87,7 @@ class FolderProjectCard extends StatelessWidget {
                         right: BorderSide(color: AppTheme.primary, width: 1.0),
                       ),
                     ),
-                    child: Text(
+                    child: SpacedText(
                       projectName,
                       style: TextStyle(
                         color: AppTheme.onAccent(tabColor),
@@ -123,7 +123,7 @@ class FolderProjectCard extends StatelessWidget {
         color: AppTheme.paper,
         border: Border.all(color: AppTheme.primary, width: 0.75),
       ),
-      child: Text(
+      child: SpacedText(
         tag,
         style: const TextStyle(
           fontWeight: FontWeight.bold,

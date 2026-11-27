@@ -66,7 +66,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   int _selectedCategory = 0;
 
   // 搜尋框的輸入內容控制器（要在 dispose 釋放）
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = SpacedTextEditingController();
 
   static const List<String> _categories = [
     '全部 (142)',
@@ -219,7 +219,7 @@ class _Tag extends StatelessWidget {
             ? null
             : Border.all(color: borderColor!, width: AppStroke.thin),
       ),
-      child: Text(text, style: _head(size, color: foreground)),
+      child: SpacedText(text, style: _head(size, color: foreground)),
     );
   }
 }
@@ -256,7 +256,7 @@ class _ActionButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(label, style: _head(10, color: foreground)),
+            SpacedText(label, style: _head(10, color: foreground)),
             const SizedBox(width: 4),
             Icon(icon, size: 13, color: foreground),
           ],
@@ -278,7 +278,7 @@ class _HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 固定高度：避免 TextField 在 IntrinsicHeight 內算不準而溢位
-    return SizedBox(height: 184,
+    return SizedBox(height: 224,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -309,7 +309,7 @@ class _HeroSection extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Flexible(
-                                child: Text(
+                                child: SpacedText(
                                   'BENTO GRID',
                                   overflow: TextOverflow.ellipsis,
                                   style: _head(9, weight: FontWeight.w700),
@@ -318,7 +318,7 @@ class _HeroSection extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 4),
-                          Text(
+                          SpacedText(
                             'FIND //',
                             style: _head(
                               24,
@@ -327,12 +327,12 @@ class _HeroSection extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 2),
-                          Text(
+                          SpacedText(
                             '142 筆委託',
                             style: _head(20, color: _C.red, height: 1.1),
                           ),
                           const SizedBox(height: 6),
-                          Text(
+                          SpacedText(
                             '前衛商業視覺、裝幀與品牌工程雙欄拼貼。',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -384,7 +384,7 @@ class _HeroSection extends StatelessWidget {
                                   hintStyle: _head(
                                     11,
                                     color: _C.grey400,
-                                    weight: FontWeight.w700,
+                                    weight: FontWeight.w700, letterSpacing: kSmallChineseLetterSpacing,
                                   ),
                                 ),
                               ),
@@ -428,7 +428,7 @@ class _HeroSection extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              SpacedText(
                                 'TAXONOMY',
                                 style: _head(
                                   9,
@@ -437,7 +437,7 @@ class _HeroSection extends StatelessWidget {
                                   letterSpacing: 0.8,
                                 ),
                               ),
-                              Text(
+                              SpacedText(
                                 '快速篩選',
                                 style: _head(14, color: _C.white, height: 1),
                               ),
@@ -479,12 +479,12 @@ class _HeroSection extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            SpacedText(
                               '急件 38 筆',
                               style: _head(18, color: _C.white, height: 1),
                             ),
                             const SizedBox(height: 2),
-                            Text(
+                            SpacedText(
                               '即刻報價媒合',
                               style: _head(
                                 9,
@@ -543,7 +543,7 @@ class _CategoryStrip extends StatelessWidget {
                     BoxShadow(color: _C.ink, offset: AppTheme.hardShadowOffset),
                   ],
                 ),
-                child: Text(
+                child: SpacedText(
                   labels[i],
                   style: _head(11, color: i == selected ? _C.yellow : _C.ink),
                 ),
@@ -604,7 +604,7 @@ class _CommissionCard extends StatelessWidget {
             Container(
               color: _C.ink,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Text('#001', style: _head(10, color: _C.yellow)),
+              child: SpacedText('#001', style: _head(10, color: _C.yellow)),
             ),            // 圖片區：客戶的第一張圖；沒有圖片時顯示深色底 + 圖示
             Container(
               height: 176,
@@ -646,7 +646,7 @@ class _CommissionCard extends StatelessWidget {
                 children: [
                   // 客戶姓名：灰色小字
                   if (clientName.isNotEmpty) ...[
-                    Text(
+                    SpacedText(
                       clientName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -659,7 +659,7 @@ class _CommissionCard extends StatelessWidget {
                     const SizedBox(height: 2),
                   ],
                   // 專案名稱：圖片下方較醒目的文字
-                  Text(
+                  SpacedText(
                     projectName,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -724,12 +724,12 @@ class _ClientBanner extends StatelessWidget {
                       borderColor: _C.ink,
                     ),
                     const SizedBox(height: 2),
-                    Text(
+                    SpacedText(
                       '我是品牌/客戶，想要刊登新委託？',
                       style: _head(14, height: 1.3),
                     ),
                     const SizedBox(height: 2),
-                    Text(
+                    SpacedText(
                       '全台 3,500+ 位通過認證的頂尖粗獷與前衛設計師即刻為您報價。',
                       style: _head(
                         11,
@@ -757,7 +757,7 @@ class _ClientBanner extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('刊登全新專案委託', style: _head(12, color: _C.white)),
+                  SpacedText('刊登全新專案委託', style: _head(12, color: _C.white)),
                   const SizedBox(width: 6),
                   const Icon(Icons.add_circle, size: 16, color: _C.white),
                 ],

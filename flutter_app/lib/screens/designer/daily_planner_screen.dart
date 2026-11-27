@@ -27,23 +27,23 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
     _taskControllersByCategory = [
       [
         for (final task in PlannerText.sampleTasks[0])
-          TextEditingController(text: task),
+          SpacedTextEditingController(text: task),
       ],
       [
         for (final task in PlannerText.sampleTasks[1])
-          TextEditingController(text: task),
+          SpacedTextEditingController(text: task),
       ],
       [
         for (final task in PlannerText.sampleTasks[2])
-          TextEditingController(text: task),
+          SpacedTextEditingController(text: task),
       ],
       [
         for (final task in PlannerText.sampleTasks[3])
-          TextEditingController(text: task),
+          SpacedTextEditingController(text: task),
       ],
       [
         for (final task in PlannerText.sampleTasks[4])
-          TextEditingController(text: task),
+          SpacedTextEditingController(text: task),
       ],
     ];
     _checkedStatesByCategory = [
@@ -128,7 +128,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              SpacedText(
                 '${now.month}/${now.day} ${weekdays[now.weekday - 1]}',
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -139,7 +139,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
+              SpacedText(
                 '${now.year} ${months[now.month - 1]}',
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -161,7 +161,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
                     vertical: 12,
                     horizontal: 14,
                   ),
-                  child: Text(
+                  child: SpacedText(
                     _isFocusMode ? PlannerText.focusOn : PlannerText.focusOff,
                     style: TextStyle(
                       color: _isFocusMode ? Colors.white : AppTheme.primary,
@@ -242,7 +242,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SpacedText(
             _headers[index],
             style: TextStyle(
               fontFamily: 'Space Grotesk',
@@ -312,7 +312,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
                         ),
                         decoration: InputDecoration(
                           hintText: isLastItem ? PlannerText.add : null,
-                          hintStyle: TextStyle(
+                          hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                             color: displayTextColor.withValues(alpha: 0.4),
                             fontSize: 12,
                           ),
@@ -367,7 +367,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
   void _addTaskRow({required int categoryIndex}) {
     setState(() {
       _taskControllersByCategory[categoryIndex].add(
-        TextEditingController(text: ''),
+        SpacedTextEditingController(text: ''),
       );
       _checkedStatesByCategory[categoryIndex].add(false);
       _taskFocusNodesByCategory[categoryIndex].add(

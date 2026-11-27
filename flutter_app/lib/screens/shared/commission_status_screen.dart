@@ -30,7 +30,7 @@ class CommissionStatusScreen extends StatelessWidget {
                         child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            SpacedText(
                               CommissionText.title,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -41,7 +41,7 @@ class CommissionStatusScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text(
+                            SpacedText(
                               CommissionText.subtitle,
                               style: TextStyle(
                                 fontSize: 10,
@@ -64,7 +64,7 @@ class CommissionStatusScreen extends StatelessWidget {
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            SpacedText(
                               '0',
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -72,7 +72,7 @@ class CommissionStatusScreen extends StatelessWidget {
                                 fontSize: 33,
                               ),
                             ),
-                            Text(
+                            SpacedText(
                               CommissionText.activeCount,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -125,7 +125,7 @@ class CommissionStatusScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.search_off, size: 48, color: AppTheme.primary),
                     SizedBox(height: 12),
-                    Text(
+                    SpacedText(
                       CommissionText.empty,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -160,7 +160,7 @@ class CommissionStatusScreen extends StatelessWidget {
           right: BorderSide(color: AppTheme.primary, width: isLast ? 0 : 2),
         ),
       ),
-      child: Text(
+      child: SpacedText(
         text,
         style: TextStyle(
           fontFamily: 'Space Grotesk',

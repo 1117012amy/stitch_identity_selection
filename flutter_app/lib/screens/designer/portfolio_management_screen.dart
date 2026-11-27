@@ -31,7 +31,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        const SpacedText(
                           PortfolioText.title,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -50,7 +50,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                             ),
                           ),
                           padding: const EdgeInsets.only(left: 8),
-                          child: const Text(
+                          child: const SpacedText(
                             PortfolioText.subtitle,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                         vertical: 12,
                       ),
                     ),
-                    child: const Text(
+                    child: const SpacedText(
                       PortfolioText.uploadWork,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -114,7 +114,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                         size: 16,
                       ),
                       SizedBox(width: 4),
-                      Text(
+                      SpacedText(
                         PortfolioText.advancedFilter,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -134,8 +134,9 @@ class PortfolioManagementScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Bento Grid Top Row
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
                     flex: 1,
@@ -156,27 +157,29 @@ class PortfolioManagementScreen extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Icon(Icons.folder, size: 36),
-                                  Container(
-                                    color: AppTheme.accentRed,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 2,
-                                    ),
-                                    child: const Text(
-                                      PortfolioText.privateLabel,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Space Grotesk',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 9,
-                                        letterSpacing: 0,
+                                  Flexible(
+                                    child: Container(
+                                      color: AppTheme.accentRed,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      child: const SpacedText(
+                                        PortfolioText.privateLabel,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Space Grotesk',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 9,
+                                          letterSpacing: 0,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 12),
-                              const Text(
+                              const SpacedText(
                                 PortfolioText.featuredTitle,
                                 style: TextStyle(
                                   fontFamily: 'Space Grotesk',
@@ -186,7 +189,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                   letterSpacing: 0,
                                 ),
                               ),
-                              const Text(
+                              const SpacedText(
                                 PortfolioText.featuredSubtitle,
                                 style: TextStyle(
                                   fontSize: 11,
@@ -200,26 +203,28 @@ class PortfolioManagementScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              RichText(
-                                text: const TextSpan(
-                                  style: TextStyle(
-                                    fontFamily: 'Space Grotesk',
-                                    fontWeight: FontWeight.w900,
-                                    color: AppTheme.primary,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: '24 ',
-                                      style: TextStyle(fontSize: 19),
+                              Expanded(
+                                child: RichText(
+                                  text: const TextSpan(
+                                    style: TextStyle(
+                                      fontFamily: 'Space Grotesk',
+                                      fontWeight: FontWeight.w900,
+                                      color: AppTheme.primary,
                                     ),
-                                    TextSpan(
-                                      text: PortfolioText.countUnit,
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        letterSpacing: 0,
+                                    children: [
+                                      TextSpan(
+                                        text: '24 ',
+                                        style: TextStyle(fontSize: 19),
                                       ),
-                                    ),
-                                  ],
+                                      TextSpan(
+                                        text: PortfolioText.countUnit,
+                                        style: TextStyle(
+                                          fontSize: 11,
+                                          letterSpacing: kSmallChineseLetterSpacing,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               Container(
@@ -276,7 +281,9 @@ class PortfolioManagementScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Wrap(
+                                        spacing: 4,
+                                        runSpacing: 4,
                                         children: [
                                           Container(
                                             decoration: BoxDecoration(
@@ -288,7 +295,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                               horizontal: 4,
                                               vertical: 2,
                                             ),
-                                            child: const Text(
+                                            child: const SpacedText(
                                               PortfolioText.sampleTag,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -297,7 +304,6 @@ class PortfolioManagementScreen extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 4),
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
@@ -308,7 +314,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                               horizontal: 4,
                                               vertical: 2,
                                             ),
-                                            child: const Text(
+                                            child: const SpacedText(
                                               '#INK',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -320,7 +326,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                         ],
                                       ),
                                       const SizedBox(height: 12),
-                                      const Text(
+                                      const SpacedText(
                                         PortfolioText.sampleTitle,
                                         style: TextStyle(
                                           fontFamily: 'Space Grotesk',
@@ -331,7 +337,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 8),
-                                      const Text(
+                                      const SpacedText(
                                         PortfolioText.sampleDescription,
                                         style: TextStyle(
                                           fontSize: 10,
@@ -354,13 +360,15 @@ class PortfolioManagementScreen extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const Text(
-                                            PortfolioText.updatedAt,
-                                            style: TextStyle(
-                                              fontFamily: 'Space Grotesk',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 9,
-                                              letterSpacing: 0,
+                                          const Expanded(
+                                            child: SpacedText(
+                                              PortfolioText.updatedAt,
+                                              style: TextStyle(
+                                                fontFamily: 'Space Grotesk',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 9,
+                                                letterSpacing: 0,
+                                              ),
                                             ),
                                           ),
                                           Row(
@@ -413,11 +421,13 @@ class PortfolioManagementScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              ),
               const SizedBox(height: 12),
 
               // Stats Row
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
                     flex: 1,
@@ -431,7 +441,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.visibility, color: Colors.white, size: 32),
                           SizedBox(height: 4),
-                          Text(
+                          SpacedText(
                             '12.5K',
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -441,7 +451,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                               letterSpacing: 0,
                             ),
                           ),
-                          Text(
+                          SpacedText(
                             PortfolioText.views,
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -470,19 +480,21 @@ class PortfolioManagementScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Icon(Icons.auto_awesome, size: 20),
-                              Text(
-                                PortfolioText.draft,
-                                style: TextStyle(
-                                  fontFamily: 'Space Grotesk',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 11,
-                                  letterSpacing: 0,
+                              Flexible(
+                                child: SpacedText(
+                                  PortfolioText.draft,
+                                  style: TextStyle(
+                                    fontFamily: 'Space Grotesk',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11,
+                                    letterSpacing: 0,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Spacer(),
-                          Text(
+                          SpacedText(
                             PortfolioText.draftTitle,
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -520,7 +532,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  SpacedText(
                                     PortfolioText.progressLabel,
                                     style: TextStyle(
                                       fontFamily: 'Space Grotesk',
@@ -530,7 +542,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                       letterSpacing: 0,
                                     ),
                                   ),
-                                  Text(
+                                  SpacedText(
                                     PortfolioText.progressValue,
                                     style: TextStyle(
                                       fontFamily: 'Space Grotesk',
@@ -558,7 +570,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  SpacedText(
                                     PortfolioText.progressLabel,
                                     style: TextStyle(
                                       fontFamily: 'Space Grotesk',
@@ -568,7 +580,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                                       letterSpacing: 0,
                                     ),
                                   ),
-                                  Text(
+                                  SpacedText(
                                     PortfolioText.progressValue,
                                     style: TextStyle(
                                       fontFamily: 'Space Grotesk',
@@ -586,6 +598,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
               ),
               const SizedBox(height: 24),
 
@@ -625,7 +638,7 @@ class PortfolioManagementScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.add_circle, size: 36),
                           SizedBox(height: 12),
-                          Text(
+                          SpacedText(
                             PortfolioText.newProject,
                             style: TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -662,7 +675,7 @@ class PortfolioManagementScreen extends StatelessWidget {
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: Text(
+      child: SpacedText(
         text,
         style: TextStyle(
           fontFamily: 'Space Grotesk',
@@ -702,7 +715,7 @@ class PortfolioManagementScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SpacedText(
                   title,
                   style: const TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -715,21 +728,23 @@ class PortfolioManagementScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.accentYellow,
-                        border: Border.all(color: AppTheme.primary),
-                      ),
-                      child: Text(
-                        tag,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 9,
-                          letterSpacing: 0,
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.accentYellow,
+                          border: Border.all(color: AppTheme.primary),
+                        ),
+                        child: SpacedText(
+                          tag,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 9,
+                            letterSpacing: 0,
+                          ),
                         ),
                       ),
                     ),

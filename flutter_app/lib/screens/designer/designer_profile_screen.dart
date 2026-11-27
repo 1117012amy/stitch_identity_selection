@@ -32,7 +32,7 @@ class DesignerProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        SpacedText(
                           name,
                           style: const TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -91,7 +91,7 @@ class DesignerProfileScreen extends StatelessWidget {
                             vertical: 5,
                           ),
                           color: AppTheme.accentRed,
-                          child: const Text(
+                          child: const SpacedText(
                             'NEW',
                             style: TextStyle(
                               color: AppTheme.onRed,
@@ -178,7 +178,7 @@ class DesignerProfileScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              const Text(
+              const SpacedText(
                 DesignerProfileText.projectBrowse,
                 style: TextStyle(
                   fontFamily: 'Space Grotesk',
@@ -226,7 +226,7 @@ class _ProfileTag extends StatelessWidget {
         color: AppTheme.paper,
         border: Border.all(color: AppTheme.primary, width: AppStroke.regular),
       ),
-      child: Text(
+      child: SpacedText(
         text,
         style: const TextStyle(
           fontFamily: 'Space Grotesk',
@@ -256,7 +256,7 @@ class _ProfileStat extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
+          SpacedText(
             label,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -267,7 +267,7 @@ class _ProfileStat extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Text(
+          SpacedText(
             value,
             style: const TextStyle(
               fontFamily: 'Space Grotesk',
@@ -294,7 +294,7 @@ class _ProfileActionLabel extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(vertical: 10.5),
-      child: Text(
+      child: SpacedText(
         text,
         style: TextStyle(
           fontFamily: 'Space Grotesk',
@@ -365,7 +365,7 @@ class _ProjectPreviewCard extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
                     child: Align(
                       alignment: Alignment.topLeft,
-                      child: Text(
+                      child: SpacedText(
                         title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -404,7 +404,7 @@ class _ProjectPreviewCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SpacedText(
                         concept,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

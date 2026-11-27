@@ -1,3 +1,4 @@
+import '../../core/spaced_text.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
@@ -126,7 +127,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen>
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     Expanded(
-                      child: Text(
+                      child: SpacedText(
                         widget.fileName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

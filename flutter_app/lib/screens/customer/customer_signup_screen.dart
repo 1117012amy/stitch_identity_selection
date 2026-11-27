@@ -16,13 +16,13 @@ class CustomerSignupScreen extends StatefulWidget {
 
 class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
   // 需求文字的控制器：用來保存輸入內容，頁面關閉時要釋放
-  final TextEditingController _requirementController = TextEditingController();
+  final TextEditingController _requirementController = SpacedTextEditingController();
 
   // 稱呼、電話的控制器：送出時要一起同步到 View Orders（委託詳情頁）
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _nameController = SpacedTextEditingController();
+  final TextEditingController _phoneController = SpacedTextEditingController();
   // 專案名稱：客戶自己命名，位置在姓名 / 電話下方、需求上方
-  final TextEditingController _projectNameController = TextEditingController();
+  final TextEditingController _projectNameController = SpacedTextEditingController();
 
   // 使用者選到的檔案（圖片或 PDF），順序 = 上傳順序；還沒選時是空的
   final List<RequirementFile> _files = [];
@@ -61,7 +61,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
     if (_files.length >= _maxFiles) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('最多只能上傳 $_maxFiles 個檔案')));
+      ).showSnackBar(const SnackBar(content: SpacedText('最多只能上傳 $_maxFiles 個檔案')));
       return;
     }
     try {
@@ -104,7 +104,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
       if (overLimit) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('最多只能上傳 $_maxFiles 個檔案，多的已略過')));
+        ).showSnackBar(const SnackBar(content: SpacedText('最多只能上傳 $_maxFiles 個檔案，多的已略過')));
       }
     } catch (e) {
       debugPrint('Attachment pick error: $e');
@@ -113,7 +113,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
       }
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('無法開啟檔案，請再試一次')));
+      ).showSnackBar(const SnackBar(content: SpacedText('無法開啟檔案，請再試一次')));
     }
   }
 
@@ -157,7 +157,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                   color: AppTheme.primary.withValues(alpha: 0.25),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                SpacedText(
                   '${CustomerSignupText.uploadImage} / PDF',
                   style: TextStyle(
                     fontFamily: 'Space Grotesk',
@@ -209,7 +209,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                         const SizedBox(height: 6),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
+                          child: SpacedText(
                             current.name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -223,7 +223,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        Text(
+                        SpacedText(
                           current.sizeText,
                           style: TextStyle(
                             fontFamily: 'Space Grotesk',
@@ -252,7 +252,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                         vertical: 3,
                       ),
                       color: const Color(0xFF0055FF),
-                      child: Text(
+                      child: SpacedText(
                         '${_selected + 1} / ${_files.length}',
                         style: const TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -271,7 +271,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                     child: Container(
                       color: AppTheme.primary.withValues(alpha: 0.7),
                       padding: const EdgeInsets.symmetric(vertical: 3),
-                      child: const Text(
+                      child: const SpacedText(
                         '點擊放大查看',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -290,7 +290,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
         ),
         const SizedBox(height: 8),
         // 已選數量與順序說明
-        Text(
+        SpacedText(
           '已選 ${_files.length} / $_maxFiles 個檔案（編號為上傳順序，點縮圖可預覽）',
           style: TextStyle(
             fontFamily: 'Space Grotesk',
@@ -368,7 +368,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SpacedText(
                         CustomerSignupText.title,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -379,7 +379,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                         ),
                       ),
                       SizedBox(height: 7),
-                      Text(
+                      SpacedText(
                         CustomerSignupText.subtitle,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -449,7 +449,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                       _projectNameController,
                     ),
                     const SizedBox(height: 15),
-                    const Text(
+                    const SpacedText(
                       CustomerSignupText.requirement,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -477,7 +477,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                       ),
                       decoration: InputDecoration(
                         hintText: CustomerSignupText.requirementHint,
-                        hintStyle: TextStyle(
+                        hintStyle: TextStyle(letterSpacing: kSmallChineseLetterSpacing,
                           color: AppTheme.primary.withValues(alpha: 0.3),
                           fontSize: 12,
                         ),
@@ -537,7 +537,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            SpacedText(
                               CustomerSignupText.start,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -577,7 +577,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SpacedText(
           label,
           style: const TextStyle(
             fontFamily: 'Space Grotesk',
@@ -597,7 +597,7 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
           ),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
+            hintStyle: TextStyle(letterSpacing: containsNonEnglish(hint) ? kSmallChineseLetterSpacing : 0.0,
               color: AppTheme.primary.withValues(alpha: 0.3),
               fontSize: 12,
             ),

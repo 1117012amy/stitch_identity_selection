@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'app_text.dart';
 import 'app_icons.dart';
 import 'fade_slide_route.dart';
+import 'spaced_text.dart';
+export 'spaced_text.dart';
 import 'project_storage_stub.dart'
     if (dart.library.html) 'project_storage_web.dart'
     if (dart.library.io) 'project_storage_io.dart';
@@ -243,7 +245,7 @@ class AppTheme {
   static InputDecoration neoInputDecoration({String? hintText}) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(
+      hintStyle: TextStyle(letterSpacing: containsNonEnglish(hintText ?? '') ? kSmallChineseLetterSpacing : AppTracking.none,
         color: primary.withValues(alpha: 0.45),
         fontFamily: 'Space Grotesk',
         fontWeight: FontWeight.w700,
@@ -705,7 +707,7 @@ class ObscureAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             padding: const EdgeInsets.only(top: 2),
-            child: const Text(
+            child: const SpacedText(
               'Obscure',
               style: TextStyle(
                 fontFamily: 'Roboto',

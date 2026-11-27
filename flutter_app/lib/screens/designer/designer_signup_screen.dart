@@ -13,10 +13,10 @@ class DesignerSignupScreen extends StatefulWidget {
 class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
   bool? _isMajor;
   double _workCount = 0;
-  final TextEditingController _codeController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _codeController = SpacedTextEditingController();
+  final TextEditingController _nameController = SpacedTextEditingController();
+  final TextEditingController _ageController = SpacedTextEditingController();
+  final TextEditingController _phoneController = SpacedTextEditingController();
 
   @override
   void dispose() {
@@ -49,7 +49,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SpacedText(
                         DesignerSignupText.title,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -60,7 +60,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                         ),
                       ),
                       SizedBox(height: 7),
-                      Text(
+                      SpacedText(
                         DesignerSignupText.subtitle,
                         style: TextStyle(
                           fontFamily: 'Space Grotesk',
@@ -126,7 +126,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                       controller: _phoneController,
                     ),
                     const SizedBox(height: 14),
-                    const Text(
+                    const SpacedText(
                       DesignerSignupText.isDesignMajor,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -156,7 +156,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                       ],
                     ),
                     const SizedBox(height: 14),
-                    const Text(
+                    const SpacedText(
                       DesignerSignupText.workCount,
                       style: TextStyle(
                         fontFamily: 'Space Grotesk',
@@ -179,7 +179,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                             ),
                           ),
                           alignment: Alignment.center,
-                          child: Text(
+                          child: SpacedText(
                             _workCount >= 10 ? '10+' : '${_workCount.toInt()}',
                             style: const TextStyle(
                               fontFamily: 'Space Grotesk',
@@ -244,7 +244,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            SpacedText(
                               DesignerSignupText.start,
                               style: TextStyle(
                                 fontFamily: 'Space Grotesk',
@@ -283,7 +283,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SpacedText(
           label,
           style: const TextStyle(
             fontFamily: 'Space Grotesk',
@@ -297,7 +297,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
           controller: controller,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: TextStyle(
+            hintStyle: TextStyle(letterSpacing: containsNonEnglish(hint) ? kSmallChineseLetterSpacing : 0.0,
               color: AppTheme.primary.withValues(alpha: 0.3),
               fontFamily: 'Space Grotesk',
               fontWeight: FontWeight.w500,
@@ -346,7 +346,7 @@ class _DesignerSignupScreenState extends State<DesignerSignupScreen> {
           ],
         ),
         alignment: Alignment.center,
-        child: Text(
+        child: SpacedText(
           text,
           style: TextStyle(
             fontFamily: 'Space Grotesk',
