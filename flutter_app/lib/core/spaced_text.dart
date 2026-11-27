@@ -45,7 +45,10 @@ List<InlineSpan> buildSpacedTextSpans(
       spans.add(
         TextSpan(
           text: text.substring(cursor, match.start),
-          style: TextStyle(letterSpacing: letterSpacing),
+          style: const TextStyle(
+            fontFamily: 'NotoSansTC',
+            fontWeight: FontWeight.w500,
+          ).copyWith(letterSpacing: letterSpacing),
         ),
       );
     }
@@ -57,7 +60,10 @@ List<InlineSpan> buildSpacedTextSpans(
     spans.add(
       TextSpan(
         text: text.substring(cursor),
-        style: TextStyle(letterSpacing: letterSpacing),
+        style: const TextStyle(
+          fontFamily: 'NotoSansTC',
+          fontWeight: FontWeight.w500,
+        ).copyWith(letterSpacing: letterSpacing),
       ),
     );
   }

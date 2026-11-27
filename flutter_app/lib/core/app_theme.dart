@@ -290,6 +290,7 @@ class AppTheme {
         surface: surface,
       ),
       fontFamily: 'Roboto',
+      fontFamilyFallback: const ['NotoSansTC'],
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontFamily: 'Roboto',

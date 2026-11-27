@@ -9,6 +9,7 @@ class ProjectStorage {
   static const _storageKey = 'obscure.designerProjects.v1';
   static const _roleKey = 'obscure.role.v1';
   static const _designerNicknameKey = 'obscure.designerNickname.v1';
+  static const _requirementKey = 'obscure.customerRequirement.v1';
 
   static Future<List<DesignerSavedProject>> loadDesignerProjects() async {
     final raw = html.window.localStorage[_storageKey];
@@ -55,5 +56,28 @@ class ProjectStorage {
   }) async {
     html.window.localStorage[_roleKey] = isDesigner ? 'designer' : 'customer';
     html.window.localStorage[_designerNicknameKey] = designerNickname;
+  }
+
+  static Future<Map<String, dynamic>?> loadCustomerRequirement() async {
+    final raw = html.window.localStorage[_requirementKey];
+    if (raw == null || raw.isEmpty) {
+      return null;
+    }
+    try {
+      final decoded = jsonDecode(raw);
+      return decoded is Map<String, dynamic> ? decoded : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<void> saveCustomerRequirement(
+    Map<String, dynamic> requirement,
+  ) async {
+    try {
+      html.window.localStorage[_requirementKey] = jsonEncode(requirement);
+    } catch (_) {
+      // localStorage 容量不足（附件太大）時不讓畫面當掉，資料仍保留在記憶體
+    }
   }
 }

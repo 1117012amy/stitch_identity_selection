@@ -34,6 +34,18 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
   static const int _maxFiles = 9;
 
   @override
+  void initState() {
+    super.initState();
+    // 回到這一頁時，把上次送出的需求帶回來，與 View Orders 顯示同一份資料
+    final saved = CustomerRequirementStore.current;
+    _projectNameController.text = saved.projectName;
+    _nameController.text = saved.name;
+    _phoneController.text = saved.phone;
+    _requirementController.text = saved.description;
+    _files.addAll(saved.files);
+  }
+
+  @override
   void dispose() {
     _requirementController.dispose();
     _nameController.dispose();

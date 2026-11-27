@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'core/app_theme.dart';
 import 'core/app_text.dart';
+import 'core/customer_requirement.dart';
 import 'core/fade_slide_route.dart';
 import 'screens/admin/admin_dashboard_screen.dart';
 import 'screens/customer/customer_profile_screen.dart';
@@ -32,6 +33,7 @@ import 'screens/shared/view_orders_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AppTheme.loadDesignerProjects();
+  await CustomerRequirementStore.load();
   runApp(const StitchApp());
 }
 
@@ -115,6 +117,7 @@ class _StitchAppState extends State<StitchApp> {
 
   Future<void> _refreshCurrentSurface() async {
     await AppTheme.loadDesignerProjects();
+    await CustomerRequirementStore.load();
     setState(() {
       _refreshTick++;
     });

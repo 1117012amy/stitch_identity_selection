@@ -124,7 +124,7 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
       appBar: const ObscureAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(15, 30, 15, 16),
+          padding: const EdgeInsets.fromLTRB(15, 25, 15, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -133,12 +133,12 @@ class _DailyPlannerScreenState extends State<DailyPlannerScreen> {
                 style: const TextStyle(
                   fontFamily: 'Space Grotesk',
                   fontWeight: FontWeight.w900,
-                  fontSize: 47,
+                  fontSize: 56,
                   height: 0.94,
                   letterSpacing: -2,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 12),
               SpacedText(
                 '${now.year} ${months[now.month - 1]}',
                 style: const TextStyle(

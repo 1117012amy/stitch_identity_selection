@@ -285,9 +285,13 @@ class ViewOrdersScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SpacedText(
-                  'PROJECT CODE: #2025-BRUTAL',
-                  style: _head(8, color: _C.grey500, weight: FontWeight.w700),
+                Flexible(
+                  child: SpacedText(
+                    'PROJECT CODE: #2025-BRUTAL',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: _head(8, color: _C.grey500, weight: FontWeight.w700),
+                  ),
                 ),
                 Row(
                   children: [

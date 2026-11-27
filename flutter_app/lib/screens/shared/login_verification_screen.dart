@@ -105,7 +105,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
                                   letterSpacing: AppTracking.none,
                                 ),
                               ),
-                              const SizedBox(height: AppSpace.sectionGap),
+                              const SizedBox(height: AppSpace.md),
                               const _FieldLabel(LoginText.mobileLabel),
                               const SizedBox(height: AppSpace.xs),
                               const _NeoLoginField(

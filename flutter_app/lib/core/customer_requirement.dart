@@ -1,4 +1,10 @@
+import 'dart:convert';
 import 'dart:typed_data';
+
+// 與 app_theme.dart 相同的條件匯入：依平台自動挑選 Web / 手機 / 桌面的儲存實作
+import 'project_storage_stub.dart'
+    if (dart.library.html) 'project_storage_web.dart'
+    if (dart.library.io) 'project_storage_io.dart';
 
 // ============================================================
 // CustomerRequirement：客戶在「需求上傳介面」（customer_signup_screen）
@@ -19,6 +25,20 @@ class RequirementFile {
   final String sizeText;
 
   bool get isPdf => name.toLowerCase().endsWith('.pdf');
+
+  factory RequirementFile.fromJson(Map<String, dynamic> json) {
+    return RequirementFile(
+      bytes: base64Decode(json['bytesBase64'] as String? ?? ''),
+      name: json['name'] as String? ?? '',
+      sizeText: json['sizeText'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'bytesBase64': base64Encode(bytes),
+    'name': name,
+    'sizeText': sizeText,
+  };
 }
 
 class CustomerRequirement {
@@ -47,6 +67,29 @@ class CustomerRequirement {
 
   bool get hasFile => files.isNotEmpty;
 
+  factory CustomerRequirement.fromJson(Map<String, dynamic> json) {
+    return CustomerRequirement(
+      projectName: json['projectName'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      files:
+          (json['files'] as List?)
+              ?.whereType<Map<String, dynamic>>()
+              .map(RequirementFile.fromJson)
+              .toList() ??
+          const [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'projectName': projectName,
+    'name': name,
+    'phone': phone,
+    'description': description,
+    'files': files.map((file) => file.toJson()).toList(),
+  };
+
   /// 客戶有填任何東西才算「有需求資料」
   bool get isEmpty =>
       projectName.trim().isEmpty &&
@@ -63,5 +106,20 @@ class CustomerRequirementStore {
 
   static void save(CustomerRequirement requirement) {
     current = requirement;
+    // 同步寫入本機儲存，重新整理 / 重開 App 後資料仍在
+    ProjectStorage.saveCustomerRequirement(requirement.toJson());
+  }
+
+  /// App 啟動（或下拉重新整理）時載入上次存的客戶需求
+  static Future<void> load() async {
+    final json = await ProjectStorage.loadCustomerRequirement();
+    if (json != null) {
+      try {
+        current = CustomerRequirement.fromJson(json);
+      } catch (_) {
+        // 存檔格式不對時當作沒有資料，不讓 App 打不開
+        current = const CustomerRequirement();
+      }
+    }
   }
 }

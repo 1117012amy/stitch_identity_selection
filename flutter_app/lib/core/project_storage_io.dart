@@ -16,6 +16,7 @@ class ProjectStorage {
   // 檔名帶 .v1，之後資料格式改版時可以另開新檔，不會誤讀舊資料。
   static const _projectsFileName = 'obscure_designer_projects.v1.json';
   static const _roleFileName = 'obscure_role.v1.json';
+  static const _requirementFileName = 'obscure_customer_requirement.v1.json';
 
   // 寫入排隊：確保同一時間只有一個寫入在跑，避免兩次儲存搶用同一個暫存檔。
   static Future<void> _writeQueue = Future<void>.value();
@@ -117,5 +118,16 @@ class ProjectStorage {
       'role': isDesigner ? 'designer' : 'customer',
       'designerNickname': designerNickname,
     });
+  }
+
+  static Future<Map<String, dynamic>?> loadCustomerRequirement() async {
+    final decoded = await _readJson(_requirementFileName);
+    return decoded is Map<String, dynamic> ? decoded : null;
+  }
+
+  static Future<void> saveCustomerRequirement(
+    Map<String, dynamic> requirement,
+  ) {
+    return _writeJson(_requirementFileName, requirement);
   }
 }
